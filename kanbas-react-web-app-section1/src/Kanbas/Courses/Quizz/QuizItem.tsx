@@ -74,7 +74,7 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
             <span className="me-2">|</span>
             <span className="me-2">{quiz.points ?? 0} pts</span>
             <span className="me-2">|</span>
-            <span className="me-2">{quiz.numberOfQuestions} questions</span>
+            <span className="me-2">{quiz.questions.length} questions</span>
           </span>
           {currentUser?.role === "STUDENT" && quiz.score != null && (
             <span className="d-block mt-1">

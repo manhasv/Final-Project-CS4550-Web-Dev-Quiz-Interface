@@ -11,6 +11,14 @@ export default function QuizDetails() {
     state.quizzesReducer.quizzes.find((q: any) => q._id === qid)
   );
 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const isFaculty = currentUser.role === "FACULTY";
+  const isStudent = currentUser.role === "STUDENT";
+
+  const handleTakeQuiz = () => {
+    navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
+  }
+
   const handlePreview = () => {
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Preview`);
   };
@@ -23,18 +31,26 @@ export default function QuizDetails() {
     <div className="container mt-4 text-center">
       {/* Centered Buttons and Divider */}
       <div className="d-flex justify-content-center mb-2">
-        <button 
-          className="btn btn-primary me-2"
-          onClick={handlePreview}
+        {isStudent && <button 
+          className="btn btn-danger me-2"
+          onClick={handleTakeQuiz}
         >
-          Preview
-        </button>
-        <button 
-          className="btn btn-secondary"
-          onClick={handleEdit}
-        >
-          Edit
-        </button>
+          Start Quiz
+        </button>}
+        {isFaculty &&
+        <>
+          <button
+            className="btn btn-primary me-2"
+            onClick={handlePreview}
+          >
+            Preview
+          </button><button
+            className="btn btn-secondary"
+            onClick={handleEdit}
+          >
+            Edit
+          </button>
+        </>}
       </div>
       <hr /> {/* Divider line */}
 

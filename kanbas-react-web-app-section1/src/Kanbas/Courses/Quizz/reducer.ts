@@ -19,6 +19,7 @@ const quizzesSlice = createSlice({
         dueDate: quiz.dueDate,
         points: quiz.points,
         numberOfQuestions: quiz.numberOfQuestions,
+        questions: []
       };
       state.quizzes = [...state.quizzes, newQuiz];
     },

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import QuizItem from "./QuizItem"; // Import the QuizItem component
 
-export default function Quizz() {
+export default function Quizzes() {
   const { cid } = useParams();
   const navigate = useNavigate();
 
