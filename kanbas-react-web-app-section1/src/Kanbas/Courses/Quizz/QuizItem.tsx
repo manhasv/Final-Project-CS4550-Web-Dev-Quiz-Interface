@@ -1,5 +1,3 @@
-// QuizItem.tsx
-
 import { BsGripVertical, BsCheck2Circle, BsThreeDotsVertical } from "react-icons/bs";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router";

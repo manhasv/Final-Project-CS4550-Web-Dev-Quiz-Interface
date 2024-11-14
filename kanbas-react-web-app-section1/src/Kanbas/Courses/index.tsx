@@ -11,6 +11,7 @@ import Quizzes from "./Quizz";
 import QuizDetails from "./Quizz/QuizDetail";
 import QuizEditor from "./Quizz/QuizDetailEditor";
 import Quiz from "./Quizz/Quiz";
+import QuizQuestionsEditor from "./Quizz/QuizQuestionsEditor";
 export default function Courses() {
   const { pathname } = useLocation();
   const { cid } = useParams();
@@ -34,6 +35,7 @@ export default function Courses() {
         <Route path="Quizzes" element={<Quizzes />} />
         <Route path="Quizzes/:qid" element={<QuizDetails />} />
         <Route path="Quizzes/:qid/Edit" element={<QuizEditor />} />
+        <Route path="Quizzes/:qid/Questions" element={<QuizQuestionsEditor />} />
         <Route path="Quizzes/New" element={<QuizEditor />} />
         <Route path="Quizzes/:qid/Take" element={<Quiz isPreview={false} />} />
         <Route path="Quizzes/:qid/Preview" element={<Quiz isPreview={true} />} />

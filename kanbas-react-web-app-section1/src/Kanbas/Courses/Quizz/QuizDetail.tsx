@@ -52,7 +52,7 @@ export default function QuizDetails() {
           </button>
         </>}
       </div>
-      <hr /> {/* Divider line */}
+      <hr />
 
       {/* Title below the divider */}
       <h2 className="quiz-title text-start">{quiz.title}</h2>

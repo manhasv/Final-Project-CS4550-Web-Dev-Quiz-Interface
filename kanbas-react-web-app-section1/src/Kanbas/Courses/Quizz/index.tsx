@@ -1,9 +1,7 @@
-// Quizz.tsx
-
 import { BsGripVertical, BsPlus, BsSearch } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
-import QuizItem from "./QuizItem"; // Import the QuizItem component
+import QuizItem from "./QuizItem";
 
 export default function Quizzes() {
   const { cid } = useParams();
