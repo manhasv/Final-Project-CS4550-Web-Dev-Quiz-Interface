@@ -9,9 +9,9 @@ import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import Quizzes from "./Quizz";
 import QuizDetails from "./Quizz/QuizDetail";
-import QuizEditor from "./Quizz/QuizDetailEditor";
+import QuizEditor from "./Quizz/Editors/QuizDetailEditor";
 import Quiz from "./Quizz/Quiz";
-import QuizQuestionsEditor from "./Quizz/QuizQuestionsEditor";
+import QuizQuestionsEditor from "./Quizz/Editors/QuizQuestionsEditor";
 export default function Courses() {
   const { pathname } = useLocation();
   const { cid } = useParams();

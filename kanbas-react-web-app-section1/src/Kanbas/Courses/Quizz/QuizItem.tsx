@@ -122,8 +122,7 @@ function QuizContextMenu({ position, onClose, onEdit, onDelete, onPublishToggle,
     <div
       className="quiz-context-menu position-fixed bg-white border shadow p-2 rounded"
       style={{ top: position.top, left: position.left - 50, zIndex: 1000 }}
-      onClick={(e) => e.stopPropagation()} // Prevents click events from closing the menu
-    >
+      onClick={(e) => e.stopPropagation()}>
       <ul className="list-unstyled mb-0">
         <li className="p-2" onClick={() => { onEdit(); onClose(); }}>Edit</li>
         <li className="p-2" onClick={() => { onDelete(); onClose(); }}>Delete</li>

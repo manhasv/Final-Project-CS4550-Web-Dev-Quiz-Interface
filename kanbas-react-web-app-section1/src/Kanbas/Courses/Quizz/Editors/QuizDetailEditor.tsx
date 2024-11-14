@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { addQuiz, updateQuiz } from "./reducer";
+import { addQuiz, updateQuiz } from "../reducer";
 import { Link } from "react-router-dom";
 
 export default function QuizEditor() {

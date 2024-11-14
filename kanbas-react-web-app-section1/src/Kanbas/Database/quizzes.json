@@ -14,7 +14,8 @@
                 "type": "TRUEFALSE",
                 "content": {
                     "text": "Is Jose Cool?",
-                    "answer": true
+                    "answer": true,
+                    "point": 10
                 }
             },
             {
@@ -25,7 +26,8 @@
                     "choices": [
                         "Red", "Blue", "Green", "Orange", "Yellow"
                     ],
-                    "answer": "Orange"
+                    "answer": "Orange",
+                    "point": 10
                 }
             },
             {
@@ -34,7 +36,8 @@
                 "content": {
                     "text": "\"ABC\" == \"__1__\" + \"__2__\" + \"__3__\"",
                     "blanks": ["__1__:", "__2__:", "__3__:"],
-                    "answer": ["A", "B", "C"]
+                    "answer": ["A", "B", "C"],
+                    "point": 10
                 }
             }
         ]

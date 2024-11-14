@@ -13,7 +13,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
     <div>
       This is a {isPreview ? "preview" : "quiz"}!!!
       <br />
-      {JSON.stringify(thisQuiz)}
+      {JSON.stringify(thisQuiz.questions)}
       <br />
       <br />
       <br />
@@ -21,7 +21,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
         return (
           <div>
             {" "}
-            <Question question={q} questionNumber={n + 1} />
+            <Question question={q} questionNumber={n + 1} point={q.content.point} />
             <br />
             <br />
           </div>
