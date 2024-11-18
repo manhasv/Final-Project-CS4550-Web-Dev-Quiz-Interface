@@ -14,25 +14,7 @@ import {
   MultipleChoiceQuestionContent, 
   FillInTheBlankQuestionContent 
 } from "./QuizQuestionTypes";
-
-function FillInTheBlankContent() {
-  const [questionText, setQuestionText] = useState("");
-  const questionTextHandler = (e: any) => {
-    setQuestionText(e.target.value);
-  }
-  return (
-    <div>
-      <h6>Question</h6>
-      <input
-        value={questionText}
-        onChange={questionTextHandler}
-        placeholder="Insert Question Description: "
-      />
-      <br></br>
-      <br></br>
-    </div>
-  );
-}
+import FillInTheBlankContent from "./FillInTheBlankContent";
 
 export default function QuizQuestionsEditor() {
   const { cid, qid } = useParams();
@@ -225,7 +207,7 @@ export default function QuizQuestionsEditor() {
           {/* Content for each QuizQuestion type */}
           {selectedType === "MULTIPLECHOICE" && <MultipleChoiceContent content={mcContent} setContent={setMcContent} />}
           {selectedType === "TRUEFALSE" && <TrueFalseContent content={tfContent} setContent={setTfContent}/>}
-          {selectedType === "FILLINTHEBLANK" && <FillInTheBlankContent />}
+          {selectedType === "FILLINTHEBLANK" && <FillInTheBlankContent content={fitbContent} setContent={setFitbContent} />}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowConfigModal(false)}>
