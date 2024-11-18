@@ -6,6 +6,7 @@ import { Modal, Button } from "react-bootstrap";
 import { updateQuiz } from "../reducer";
 import Question from "../Questions/Question";
 import MultipleChoiceContent from "./MultipleChoiceContent";
+import TrueFalseContent from "./TrueFalseContent";
 import { 
   QuizQuestion, 
   QuizQuestionContent, 
@@ -13,49 +14,6 @@ import {
   MultipleChoiceQuestionContent, 
   FillInTheBlankQuestionContent 
 } from "./QuizQuestionTypes";
-
-function TrueFalseContent() {
-  const [questionText, setQuestionText] = useState("");
-  const [answer, setAnswer] = useState(true);
-
-  const handleAnswerChange = (value: boolean | ((prevState: boolean) => boolean)) => {
-    setAnswer(value);
-  };
-  const questionTextHandler = (e: any) => {
-    setQuestionText(e.target.value);
-  }
-
-  return (
-    <div>
-      <h6>Question</h6>
-      <input
-        value={questionText}
-        onChange={questionTextHandler}
-        placeholder="Insert Question Description: "
-      />
-      <br></br>
-      <br></br>
-      <h6>Answer</h6>
-      <div>
-        <label style={{ marginRight: "10px" }}>True</label>
-        <input
-          type="radio"
-          name="truefalse"
-          checked={answer === true}
-          onChange={() => handleAnswerChange(true)}
-        />
-        <br></br>
-        <label style={{ marginRight: "10px" }}>False</label>
-        <input
-          type="radio"
-          name="truefalse"
-          checked={answer === false}
-          onChange={() => handleAnswerChange(false)}
-        />
-      </div>
-    </div>
-  );
-}
 
 function FillInTheBlankContent() {
   const [questionText, setQuestionText] = useState("");
@@ -92,13 +50,6 @@ export default function QuizQuestionsEditor() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [showConfigModal, setShowConfigModal] = useState(false);
 
-  // Temporary states for QuizQuestion creation/editing
-  // const [questionText, setQuestionText] = useState("");
-  // const [trueFalseAnswer, setTrueFalseAnswer] = useState(true);
-  // const [multipleChoiceChoices, setMultipleChoiceChoices] = useState<string[]>([""]);
-  // const [multipleChoiceAnswer, setMultipleChoiceAnswer] = useState("");
-  // const [fillInTheBlankBlanks, setFillInTheBlankBlanks] = useState<string[]>([""]);
-  // const [fillInTheBlankAnswers, setFillInTheBlankAnswers] = useState<string[]>([""]);
   const [questionPoint, setQuestionPoint] = useState(10);
 
   const [tfContent, setTfContent] = useState<TrueFalseQuestionContent>({ text: "", answer: true, point: 0 });
@@ -273,7 +224,7 @@ export default function QuizQuestionsEditor() {
         <Modal.Body>
           {/* Content for each QuizQuestion type */}
           {selectedType === "MULTIPLECHOICE" && <MultipleChoiceContent content={mcContent} setContent={setMcContent} />}
-          {selectedType === "TRUEFALSE" && <TrueFalseContent />}
+          {selectedType === "TRUEFALSE" && <TrueFalseContent content={tfContent} setContent={setTfContent}/>}
           {selectedType === "FILLINTHEBLANK" && <FillInTheBlankContent />}
         </Modal.Body>
         <Modal.Footer>
