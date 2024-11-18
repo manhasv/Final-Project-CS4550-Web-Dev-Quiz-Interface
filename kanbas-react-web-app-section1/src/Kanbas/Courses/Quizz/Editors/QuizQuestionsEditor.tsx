@@ -5,60 +5,14 @@ import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { updateQuiz } from "../reducer";
 import Question from "../Questions/Question";
-
-// The Content for Multiple Choice Questions
-function MultipleChoiceContent() {
-  const [questionText, setQuestionText] = useState("");
-  const [answers, setAnswer] = useState([{ text: "", correct: false }]);
-
-  const addAnswer = () => {
-    setAnswer([...answers, { text: "", correct: false }]);
-  };
-
-  const handleAnswerChange = (index: number, value: string) => {
-    const updatedAnswers = [...answers];
-    updatedAnswers[index].text = value;
-    setAnswer(updatedAnswers);
-  };
-
-  const toggleCorrectAnswer = (index: number) => {
-    const updatedAnswers = answers.map((answer, i) => ({
-      ...answer, correct: i === index,
-    }));
-    setAnswer(updatedAnswers);
-  };
-
-  const questionTextHandler = (e: any) => {
-    setQuestionText(e.target.value);
-  }
-  return (
-    <div>
-      <h6>Question</h6>
-      <input
-        value={questionText}
-        onChange={questionTextHandler}
-        placeholder="Insert Question Description: "
-      />
-      <br></br>
-      <br></br>
-      <h6>Answers</h6>
-      {answers.map((answer, i) => (
-        <div>
-          <label style={{ marginRight: "10px" }}>Possible Answer</label>
-          <input
-            type="text"
-            value={answer.text}
-            onChange={(e) => handleAnswerChange(i, e.target.value)}
-          />
-        </div>
-      ))}
-      <br></br>
-      <Button variant="primary" onClick={addAnswer}>
-        +Add Another Answer
-      </Button>
-    </div>
-  );
-}
+import MultipleChoiceContent from "./MultipleChoiceContent";
+import { 
+  QuizQuestion, 
+  QuizQuestionContent, 
+  TrueFalseQuestionContent, 
+  MultipleChoiceQuestionContent, 
+  FillInTheBlankQuestionContent 
+} from "./QuizQuestionTypes";
 
 function TrueFalseContent() {
   const [questionText, setQuestionText] = useState("");
@@ -121,41 +75,6 @@ function FillInTheBlankContent() {
     </div>
   );
 }
-// Define types for each QuizQuestion type
-type TrueFalseQuestion = {
-  _id: number;
-  type: "TRUEFALSE";
-  content: {
-    text: string;
-    answer: boolean;
-    point: number;
-  };
-};
-
-type MultipleChoiceQuestion = {
-  _id: number;
-  type: "MULTIPLECHOICE";
-  content: {
-    text: string;
-    choices: string[];
-    answer: string;
-    point: number;
-  };
-};
-
-type FillInTheBlankQuestion = {
-  _id: number;
-  type: "FILLINTHEBLANK";
-  content: {
-    text: string;
-    blanks: string[];
-    answer: string[];
-    point: number;
-  };
-};
-
-type QuizQuestion = TrueFalseQuestion | MultipleChoiceQuestion | FillInTheBlankQuestion;
-
 
 export default function QuizQuestionsEditor() {
   const { cid, qid } = useParams();
@@ -174,13 +93,17 @@ export default function QuizQuestionsEditor() {
   const [showConfigModal, setShowConfigModal] = useState(false);
 
   // Temporary states for QuizQuestion creation/editing
-  const [questionText, setQuestionText] = useState("");
-  const [trueFalseAnswer, setTrueFalseAnswer] = useState(true);
-  const [multipleChoiceChoices, setMultipleChoiceChoices] = useState<string[]>([""]);
-  const [multipleChoiceAnswer, setMultipleChoiceAnswer] = useState("");
-  const [fillInTheBlankBlanks, setFillInTheBlankBlanks] = useState<string[]>([""]);
-  const [fillInTheBlankAnswers, setFillInTheBlankAnswers] = useState<string[]>([""]);
+  // const [questionText, setQuestionText] = useState("");
+  // const [trueFalseAnswer, setTrueFalseAnswer] = useState(true);
+  // const [multipleChoiceChoices, setMultipleChoiceChoices] = useState<string[]>([""]);
+  // const [multipleChoiceAnswer, setMultipleChoiceAnswer] = useState("");
+  // const [fillInTheBlankBlanks, setFillInTheBlankBlanks] = useState<string[]>([""]);
+  // const [fillInTheBlankAnswers, setFillInTheBlankAnswers] = useState<string[]>([""]);
   const [questionPoint, setQuestionPoint] = useState(10);
+
+  const [tfContent, setTfContent] = useState<TrueFalseQuestionContent>({ text: "", answer: true, point: 0 });
+  const [mcContent, setMcContent] = useState<MultipleChoiceQuestionContent>({ text: "", choices: [], answer: "", point: 0 });
+  const [fitbContent, setFitbContent] = useState<FillInTheBlankQuestionContent>({ text: "", blanks: [], answer: [], point: 0 });
 
   // Handle points calculation whenever questions state changes
   useEffect(() => {
@@ -207,9 +130,8 @@ export default function QuizQuestionsEditor() {
         _id: questions.length + 1,
         type: "TRUEFALSE",
         content: {
-          text: questionText,
-          answer: trueFalseAnswer,
-          point: questionPoint,
+          ...tfContent,
+          point: questionPoint
         },
       };
     } else if (selectedType === "MULTIPLECHOICE") {
@@ -217,10 +139,8 @@ export default function QuizQuestionsEditor() {
         _id: questions.length + 1,
         type: "MULTIPLECHOICE",
         content: {
-          text: questionText,
-          choices: multipleChoiceChoices,
-          answer: multipleChoiceAnswer,
-          point: questionPoint,
+          ...mcContent,
+          point: questionPoint
         },
       };
     } else {
@@ -228,15 +148,14 @@ export default function QuizQuestionsEditor() {
         _id: questions.length + 1,
         type: "FILLINTHEBLANK",
         content: {
-          text: questionText,
-          blanks: fillInTheBlankBlanks,
-          answer: fillInTheBlankAnswers,
-          point: questionPoint,
+          ...fitbContent,
+          point: questionPoint
         },
       };
     }
 
     setQuestions([...questions, newQuestion]);
+    alert(`Adding new question: \n${JSON.stringify(newQuestion)}`)
     setShowConfigModal(false);
   };
 
@@ -327,9 +246,9 @@ export default function QuizQuestionsEditor() {
           <p>Choose a Question type:</p>
           <select className="form-control" onChange={(e) => setSelectedType(e.target.value)} defaultValue="">
             <option value="" disabled>Select type</option>
-            <option value="Multiple Choice">Multiple Choice</option>
-            <option value="True/False">True/False</option>
-            <option value="Fill in the Blank">Fill in the Blank</option>
+            <option value="MULTIPLECHOICE">Multiple Choice</option>
+            <option value="TRUEFALSE">True/False</option>
+            <option value="FILLINTHEBLANK">Fill in the Blank</option>
           </select>
         </Modal.Body>
         <Modal.Footer>
@@ -345,13 +264,17 @@ export default function QuizQuestionsEditor() {
       {/* Configuration Modal Based on Selected Type */}
       <Modal show={showConfigModal} onHide={() => setShowConfigModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Configure {selectedType} Question</Modal.Title>
+          <Modal.Title>Configure {{
+            MULTIPLECHOICE: "Multiple Choice", 
+            TRUEFALSE: "True/False", 
+            FILLINTHEBLANK: "Fill in the Blank"
+            }[selectedType || ""]} Question</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* Content for each QuizQuestion type */}
-          {selectedType === "Multiple Choice" && <MultipleChoiceContent />}
-          {selectedType === "True/False" && <TrueFalseContent />}
-          {selectedType === "Fill in the Blank" && <FillInTheBlankContent />}
+          {selectedType === "MULTIPLECHOICE" && <MultipleChoiceContent content={mcContent} setContent={setMcContent} />}
+          {selectedType === "TRUEFALSE" && <TrueFalseContent />}
+          {selectedType === "FILLINTHEBLANK" && <FillInTheBlankContent />}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowConfigModal(false)}>
