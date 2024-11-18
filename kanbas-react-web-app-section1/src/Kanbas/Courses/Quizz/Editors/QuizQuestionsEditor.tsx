@@ -5,6 +5,122 @@ import { Link } from "react-router-dom";
 import { Modal, Button } from "react-bootstrap";
 import { updateQuiz } from "../reducer";
 import Question from "../Questions/Question";
+
+// The Content for Multiple Choice Questions
+function MultipleChoiceContent() {
+  const [questionText, setQuestionText] = useState("");
+  const [answers, setAnswer] = useState([{ text: "", correct: false }]);
+
+  const addAnswer = () => {
+    setAnswer([...answers, { text: "", correct: false }]);
+  };
+
+  const handleAnswerChange = (index: number, value: string) => {
+    const updatedAnswers = [...answers];
+    updatedAnswers[index].text = value;
+    setAnswer(updatedAnswers);
+  };
+
+  const toggleCorrectAnswer = (index: number) => {
+    const updatedAnswers = answers.map((answer, i) => ({
+      ...answer, correct: i === index,
+    }));
+    setAnswer(updatedAnswers);
+  };
+
+  const questionTextHandler = (e: any) => {
+    setQuestionText(e.target.value);
+  }
+  return (
+    <div>
+      <h6>Question</h6>
+      <input
+        value={questionText}
+        onChange={questionTextHandler}
+        placeholder="Insert Question Description: "
+      />
+      <br></br>
+      <br></br>
+      <h6>Answers</h6>
+      {answers.map((answer, i) => (
+        <div>
+          <label style={{ marginRight: "10px" }}>Possible Answer</label>
+          <input
+            type="text"
+            value={answer.text}
+            onChange={(e) => handleAnswerChange(i, e.target.value)}
+          />
+        </div>
+      ))}
+      <br></br>
+      <Button variant="primary" onClick={addAnswer}>
+        +Add Another Answer
+      </Button>
+    </div>
+  );
+}
+
+function TrueFalseContent() {
+  const [questionText, setQuestionText] = useState("");
+  const [answer, setAnswer] = useState(true);
+
+  const handleAnswerChange = (value: boolean | ((prevState: boolean) => boolean)) => {
+    setAnswer(value);
+  };
+  const questionTextHandler = (e: any) => {
+    setQuestionText(e.target.value);
+  }
+
+  return (
+    <div>
+      <h6>Question</h6>
+      <input
+        value={questionText}
+        onChange={questionTextHandler}
+        placeholder="Insert Question Description: "
+      />
+      <br></br>
+      <br></br>
+      <h6>Answer</h6>
+      <div>
+        <label style={{ marginRight: "10px" }}>True</label>
+        <input
+          type="radio"
+          name="truefalse"
+          checked={answer === true}
+          onChange={() => handleAnswerChange(true)}
+        />
+        <br></br>
+        <label style={{ marginRight: "10px" }}>False</label>
+        <input
+          type="radio"
+          name="truefalse"
+          checked={answer === false}
+          onChange={() => handleAnswerChange(false)}
+        />
+      </div>
+    </div>
+  );
+}
+
+function FillInTheBlankContent() {
+  const [questionText, setQuestionText] = useState("");
+  const questionTextHandler = (e: any) => {
+    setQuestionText(e.target.value);
+  }
+  return (
+    <div>
+      <h6>Question</h6>
+      <input
+        value={questionText}
+        onChange={questionTextHandler}
+        placeholder="Insert Question Description: "
+      />
+      <br></br>
+      <br></br>
+    </div>
+  );
+}
 // Define types for each QuizQuestion type
 type TrueFalseQuestion = {
   _id: number;
@@ -45,8 +161,8 @@ export default function QuizQuestionsEditor() {
   const { cid, qid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
-  const quiz = useSelector((state: any) => 
+
+  const quiz = useSelector((state: any) =>
     state.quizzesReducer.quizzes.find((q: any) => q._id === qid)
   );
 
@@ -71,7 +187,7 @@ export default function QuizQuestionsEditor() {
     const totalPoints = questions.reduce((sum, q) => sum + q.content.point, 0);
     setPoints(totalPoints);
   }, [questions]);
-  
+
   const handleAddQuestion = () => {
     setShowTypeModal(true);
   };
@@ -79,7 +195,7 @@ export default function QuizQuestionsEditor() {
   const handleTypeSelect = (type: string) => {
     setSelectedType(type);
     setShowTypeModal(false);
-    setShowConfigModal(true); 
+    setShowConfigModal(true);
   };
 
   const addNewQuestion = () => {
@@ -121,7 +237,7 @@ export default function QuizQuestionsEditor() {
     }
 
     setQuestions([...questions, newQuestion]);
-    setShowConfigModal(false); 
+    setShowConfigModal(false);
   };
 
   const saveQuizQuestions = () => {
@@ -141,11 +257,12 @@ export default function QuizQuestionsEditor() {
       {/* Tabs */}
       <div className="d-flex mb-4">
         <div className="tab" onClick={() => navigate(`/Kanbas/Courses/${cid}/Quizzes/${qid}/Edit`)}
-             style={{ cursor: "pointer", padding: "10px", fontWeight: "normal" }}>
+          style={{ cursor: "pointer", padding: "10px", fontWeight: "normal" }}>
           Details
         </div>
         <div className="tab" style={{
-             cursor: "pointer", padding: "10px", fontWeight: "bold", borderBottom: "2px solid black" }}>
+          cursor: "pointer", padding: "10px", fontWeight: "bold", borderBottom: "2px solid black"
+        }}>
           Questions
         </div>
       </div>
@@ -160,16 +277,16 @@ export default function QuizQuestionsEditor() {
           <p>No questions added yet. Click "New Question" to add one.</p>
         ) : (
           <div>
-          {questions.map((q: any, n: number) => {
-            return (
-              <div>
-                {" "}
-                <Question question={q} questionNumber={n + 1} point={q.content.point} />
-                <br />
-                <br />
-              </div>
-            );
-          })}
+            {questions.map((q: any, n: number) => {
+              return (
+                <div>
+                  {" "}
+                  <Question question={q} questionNumber={n + 1} point={q.content.point} />
+                  <br />
+                  <br />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -197,6 +314,16 @@ export default function QuizQuestionsEditor() {
           <Modal.Title>Select Question Type</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <label>pts:
+        <input 
+        type="number"
+        min={0}
+        value={questionPoint}
+        onChange={(e) => setQuestionPoint(parseInt(e.target.value))}
+        />
+        </label>
+        <br></br>
+        <br></br>
           <p>Choose a Question type:</p>
           <select className="form-control" onChange={(e) => setSelectedType(e.target.value)} defaultValue="">
             <option value="" disabled>Select type</option>
@@ -222,6 +349,9 @@ export default function QuizQuestionsEditor() {
         </Modal.Header>
         <Modal.Body>
           {/* Content for each QuizQuestion type */}
+          {selectedType === "Multiple Choice" && <MultipleChoiceContent />}
+          {selectedType === "True/False" && <TrueFalseContent />}
+          {selectedType === "Fill in the Blank" && <FillInTheBlankContent />}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowConfigModal(false)}>
