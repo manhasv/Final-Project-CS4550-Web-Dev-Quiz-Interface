@@ -34,9 +34,19 @@ export default function QuizQuestionsEditor() {
 
   const [questionPoint, setQuestionPoint] = useState(10);
 
-  const [tfContent, setTfContent] = useState<TrueFalseQuestionContent>({ text: "", answer: true, point: 0 });
-  const [mcContent, setMcContent] = useState<MultipleChoiceQuestionContent>({ text: "", choices: [], answer: "", point: 0 });
-  const [fitbContent, setFitbContent] = useState<FillInTheBlankQuestionContent>({ text: "", blanks: [], answer: [], point: 0 });
+  const tfDefault = { text: "", answer: true, point: 0 };
+  const mcDefault = { text: "", choices: [], answer: "", point: 0 };
+  const fitbDefault = { text: "", blanks: [], answer: [], point: 0 };
+
+  const [tfContent, setTfContent] = useState<TrueFalseQuestionContent>({ ...tfDefault });
+  const [mcContent, setMcContent] = useState<MultipleChoiceQuestionContent>({ ...mcDefault });
+  const [fitbContent, setFitbContent] = useState<FillInTheBlankQuestionContent>({ ...fitbDefault });
+
+  const resetQuestions = () => {
+    setTfContent({ ...tfDefault });
+    setMcContent({ ...mcDefault });
+    setFitbContent({ ...fitbDefault });
+  }
 
   // Handle points calculation whenever questions state changes
   useEffect(() => {
@@ -88,6 +98,7 @@ export default function QuizQuestionsEditor() {
     }
 
     setQuestions([...questions, newQuestion]);
+    resetQuestions();
     alert(`Adding new question: \n${JSON.stringify(newQuestion)}`)
     setShowConfigModal(false);
   };
