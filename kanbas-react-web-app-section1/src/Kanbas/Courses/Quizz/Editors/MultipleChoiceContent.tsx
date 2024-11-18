@@ -76,6 +76,7 @@ export default function MultipleChoiceContent({
               type="text"
               value={choice}
               onChange={(e) => handleChoiceChange(i, e.target.value)}
+              placeholder={`Answer${i + 1}`}
             />
           </label>
           {content.answer === choice ? (

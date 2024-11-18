@@ -29,7 +29,7 @@ export default function TrueFalseContent({
         className="form-control"
         value={content.text}
         onChange={questionTextHandler}
-        placeholder="Insert Question Description: "
+        placeholder="Question Text"
       />
       <br></br>
       <h6>Answer</h6>
