@@ -4,6 +4,7 @@ import express from "express";
 
 const app = express();
 app.use(express.json());
+Lab5(app);
 Hello(app);
 
 app.listen(process.env.PORT || 4000)
