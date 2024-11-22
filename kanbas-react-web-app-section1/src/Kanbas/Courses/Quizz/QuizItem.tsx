@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
 import { useState } from "react";
+import { deleteQuiz } from "./reducer";
+import * as quizClient from "./client";
 
 interface QuizItemProps {
   quiz: any;
@@ -30,8 +32,9 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
     navigate(`/Kanbas/Courses/${cid}/Quizzes/${quiz._id}`);
   };
 
-  const handleDelete = () => {
-    dispatch({ type: "DELETE_QUIZ", payload: quiz._id });
+  const handleDelete = async () => {
+    await quizClient.deleteQuizz(quiz._id);
+    dispatch(deleteQuiz(quiz._id));
   };
 
   const handlePublishToggle = () => {
@@ -135,3 +138,4 @@ function QuizContextMenu({ position, onClose, onEdit, onDelete, onPublishToggle,
     document.body // Renders the menu at the root level
   );
 }
+

@@ -9,7 +9,11 @@ const quizzesSlice = createSlice({
   name: "quizzes",
   initialState,
   reducers: {
+    setQuiz: (state, { payload: quizzes }) => {
+      state.quizzes = quizzes;
+    },
     addQuiz: (state, { payload: quiz }) => {
+
       const newQuiz = {
         _id: new Date().getTime().toString(),
         ...quiz,
@@ -40,5 +44,5 @@ const quizzesSlice = createSlice({
   },
 });
 
-export const { addQuiz, deleteQuiz, updateQuiz, editQuiz, setQuizScore } = quizzesSlice.actions;
+export const { addQuiz, deleteQuiz, updateQuiz, editQuiz, setQuizScore, setQuiz } = quizzesSlice.actions;
 export default quizzesSlice.reducer;

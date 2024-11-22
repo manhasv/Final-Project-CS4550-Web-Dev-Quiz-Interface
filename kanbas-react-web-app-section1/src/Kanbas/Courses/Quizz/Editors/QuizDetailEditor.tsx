@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { addQuiz, updateQuiz } from "../reducer";
 import { Link } from "react-router-dom";
+import * as coursesClient from "../../client";
+import * as quizzClient from "../client";
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
@@ -26,10 +28,12 @@ export default function QuizEditor() {
 
   const [quiz, setQuiz] = useState(quizData);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!qid || qid === "New") {
+      await coursesClient.createQuizzForCourse(cid as string, quiz);
       dispatch(addQuiz({ ...quiz, course: cid }));
     } else {
+      await quizzClient.updateQuizz(qid);
       dispatch(updateQuiz({ ...quiz, _id: qid, course: cid }));
     }
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);

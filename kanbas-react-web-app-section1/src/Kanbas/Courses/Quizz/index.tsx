@@ -1,16 +1,28 @@
 import { BsGripVertical, BsPlus, BsSearch } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import QuizItem from "./QuizItem";
 
+import * as courseClient from "../client";
+import { useEffect } from "react";
+import {setQuiz}  from "./reducer";
 export default function Quizzes() {
   const { cid } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const quizzes = useSelector((state: any) => state.quizzesReducer?.quizzes ?? []);
   const filteredQuizzes = quizzes.filter((quiz: any) => quiz.course === cid);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";
+
+  const fetchQuiz = async () => {
+    const quiz = await courseClient.findQuizForCourse(cid as string);
+    dispatch(setQuiz(quiz));
+  };
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
 
   return (
     <div id="wd-quizzes">
