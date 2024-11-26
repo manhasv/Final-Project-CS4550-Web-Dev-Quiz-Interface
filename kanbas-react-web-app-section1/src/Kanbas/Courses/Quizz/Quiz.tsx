@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Question from "./Questions/Question";
 import { useParams } from "react-router";
 import { setAttempt } from "./Attempt/your_attempt_reducer";
+import Timer from "./Timer";
 
 export default function Quiz({
   isPreview
@@ -28,6 +29,7 @@ export default function Quiz({
       <br />
       <br />
       <br />
+      <Timer startTime={attempt.start}/>
       {thisQuiz.questions.map((q: any, n: number) => {
         return (
           <div>
