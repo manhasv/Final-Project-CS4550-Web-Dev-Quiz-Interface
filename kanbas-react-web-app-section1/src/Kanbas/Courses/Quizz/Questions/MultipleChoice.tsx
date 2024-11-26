@@ -1,4 +1,10 @@
-export default function MultipleChoice({ question }: { question: any }) {
+export default function MultipleChoice({
+  questionIndex,
+  question,
+}: {
+  questionIndex: number;
+  question: any;
+}) {
   return (
     <div>
       {question.content.text}

@@ -1,16 +1,27 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Question from "./Questions/Question";
-import QuestionHeader from "./Questions/QuestionHeader";
 import { useParams } from "react-router";
+import { setAttempt } from "./Attempt/your_attempt_reducer";
 
-export default function Quiz({ isPreview }: { isPreview: boolean }) {
+export default function Quiz({
+  isPreview
+}: {
+  isPreview: boolean;
+}) {
   const { qid } = useParams();
   const quizzes = useSelector(
     (state: any) => state.quizzesReducer?.quizzes ?? []
   );
-  const thisQuiz = quizzes.find((quiz: any) => quiz._id === qid);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { attempt } = useSelector((state: any) => state.attemptReducer);
+  const thisQuiz = quizzes.find((quiz: any) => quiz._id === qid); // this would pull from server
+
+  const dispatch = useDispatch();
+
   return (
     <div>
+      {JSON.stringify(attempt)}
+      <br />
       This is a {isPreview ? "preview" : "quiz"}!!!
       <br />
       {JSON.stringify(thisQuiz.questions)}
@@ -21,7 +32,11 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
         return (
           <div>
             {" "}
-            <Question question={q} questionNumber={n + 1} point={q.content.point} />
+            <Question
+              question={q}
+              questionNumber={n + 1}
+              point={q.content.point}
+            />
             <br />
             <br />
           </div>

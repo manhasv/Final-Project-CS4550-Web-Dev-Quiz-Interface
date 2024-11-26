@@ -21,12 +21,12 @@ export default function Question({
         points={point}
       />
       <div className="bg-light border border-2 border-top-0 border-dark p-2">
-        {questionType == "TRUEFALSE" && <TrueFalse question={question} />}
+        {questionType == "TRUEFALSE" && <TrueFalse questionIndex={questionNumber - 1} question={question} />}
         {questionType == "MULTIPLECHOICE" && (
-          <MultipleChoice question={question} />
+          <MultipleChoice questionIndex={questionNumber - 1} question={question} />
         )}
         {questionType == "FILLINTHEBLANK" && (
-          <FillInTheBlank question={question} />
+          <FillInTheBlank questionIndex={questionNumber - 1} question={question} />
         )}
       </div>
     </div>

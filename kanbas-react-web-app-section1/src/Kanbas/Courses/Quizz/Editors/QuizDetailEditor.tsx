@@ -29,11 +29,12 @@ export default function QuizEditor() {
   const [quiz, setQuiz] = useState(quizData);
 
   const handleSave = async () => {
+    alert(`saving quiz ${JSON.stringify(quiz)}`);
     if (!qid || qid === "New") {
       await coursesClient.createQuizzForCourse(cid as string, quiz);
       dispatch(addQuiz({ ...quiz, course: cid }));
     } else {
-      await quizzClient.updateQuizz(qid);
+      await quizzClient.updateQuizz(quiz);
       dispatch(updateQuiz({ ...quiz, _id: qid, course: cid }));
     }
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
@@ -205,7 +206,13 @@ export default function QuizEditor() {
                 <div className="col-md-2 text-end">
                   <label htmlFor="quiz-time-limit">Time Limit (minutes)</label>
                 </div>
-                
+                <div className="col-md-10">
+                  <input 
+                    className="form-control" 
+                    defaultValue={quiz.timeLimit} 
+                    onChange={(e) => handleChange("timeLimit", parseInt(e.target.value))}>
+                  </input>
+                </div>
               </div>
             </td>
           </tr>

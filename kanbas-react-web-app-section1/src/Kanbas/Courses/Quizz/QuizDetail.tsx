@@ -2,7 +2,8 @@
 
 import React from "react";
 import { useParams, useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAttempt } from "./Attempt/your_attempt_reducer";
 
 export default function QuizDetails() {
   const { qid } = useParams();
@@ -15,7 +16,16 @@ export default function QuizDetails() {
   const isFaculty = currentUser.role === "FACULTY";
   const isStudent = currentUser.role === "STUDENT";
 
+  const dispatch = useDispatch();
+
   const handleTakeQuiz = () => {
+    dispatch(setAttempt({ // this would utilize the server
+      _id: "1",
+      user: currentUser._id,
+      quiz: quiz._id,
+      start: new Date().getTime().toString(),
+      answers: quiz.questions.map((_:any) => null),
+    }));
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
   }
 

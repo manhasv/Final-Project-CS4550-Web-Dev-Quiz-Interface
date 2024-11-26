@@ -1,4 +1,10 @@
-export default function FillInTheBlank({ question }: { question: any }) {
+export default function FillInTheBlank({
+  questionIndex,
+  question,
+}: {
+  questionIndex: number;
+  question: any;
+}) {
   return (
     <div>
       {question.content.text}
