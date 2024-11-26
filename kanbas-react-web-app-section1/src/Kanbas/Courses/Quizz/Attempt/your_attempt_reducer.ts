@@ -23,7 +23,7 @@ const attemptsSlice = createSlice({
       state.attempt = attempt;
     },
     setAnswer: (state, action: PayloadAction<QuestionSetter>) => {
-      alert(`setting answer ${action.payload.questionIndex} to ${action.payload.answer}`);
+      // alert(`setting answer ${action.payload.questionIndex} to ${action.payload.answer}`);
       state.attempt.answers[action.payload.questionIndex] = action.payload.answer;
     },
   },

@@ -9,8 +9,10 @@ export default function QuizDetails() {
   const { qid } = useParams();
   const navigate = useNavigate();
   const quiz = useSelector((state: any) =>
-    state.quizzesReducer.quizzes.find((q: any) => q._id === qid)
+    state.quizzesReducer.quizzes.find((q: any) => q._id === qid) // this would use the server
   );
+
+  const { attempt } = useSelector((state: any) => state.attemptReducer);
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
@@ -18,14 +20,18 @@ export default function QuizDetails() {
 
   const dispatch = useDispatch();
 
+  const attemptActive = attempt.user === currentUser._id && attempt.quiz === qid; // check for time ?
+
   const handleTakeQuiz = () => {
-    dispatch(setAttempt({ // this would utilize the server
-      _id: "1",
-      user: currentUser._id,
-      quiz: quiz._id,
-      start: new Date().getTime().toString(),
-      answers: quiz.questions.map((_:any) => null),
-    }));
+    if (!attemptActive) {
+      dispatch(setAttempt({ // this would utilize the server
+        _id: "1",
+        user: currentUser._id,
+        quiz: quiz._id,
+        start: new Date().getTime().toString(),
+        answers: quiz.questions.map((_:any) => null),
+      }));
+    }
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
   }
 
@@ -45,7 +51,7 @@ export default function QuizDetails() {
           className="btn btn-danger me-2"
           onClick={handleTakeQuiz}
         >
-          Start Quiz
+          {`${attemptActive ? "Resume" : "Start"} Quiz`}
         </button>}
         {isFaculty &&
         <>

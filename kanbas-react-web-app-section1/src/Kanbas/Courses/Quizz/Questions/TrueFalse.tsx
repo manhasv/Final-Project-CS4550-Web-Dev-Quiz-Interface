@@ -15,20 +15,36 @@ export default function TrueFalse({
       {question.content.text}
       <br />
       <label>
-        <input name={`TF#${question._id}`} type="radio" value="true" onChange={(e) => {
-          if (attempt[questionIndex] !== e.target.checked) {
-            dispatch(setAnswer({ questionIndex, answer: e.target.checked}));
+        <input
+          name={`TF#${question._id}`}
+          type="radio"
+          value="true"
+          defaultChecked={
+            attempt.answers[questionIndex] === true
           }
-        }}></input>
+          onChange={(e) => {
+            if (attempt[questionIndex] !== e.target.checked) {
+              dispatch(setAnswer({ questionIndex, answer: e.target.checked }));
+            }
+          }}
+        ></input>
         True
       </label>
       <br />
       <label>
-        <input name={`TF#${question._id}`} type="radio" value="false" onChange={(e) => {
-          if (attempt[questionIndex] !== !e.target.checked) {
-            dispatch(setAnswer({ questionIndex, answer: !e.target.checked}));
+        <input
+          name={`TF#${question._id}`}
+          type="radio"
+          value="false"
+          defaultChecked={
+            attempt.answers[questionIndex] === false
           }
-        }}></input>
+          onChange={(e) => {
+            if (attempt[questionIndex] !== !e.target.checked) {
+              dispatch(setAnswer({ questionIndex, answer: !e.target.checked }));
+            }
+          }}
+        ></input>
         False
       </label>
     </div>
