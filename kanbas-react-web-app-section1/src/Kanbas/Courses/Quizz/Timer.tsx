@@ -12,10 +12,19 @@ export default function Timer({ startTime }: { startTime: number }) {
     updateTimer();
   }, []);
 
+  const hours = Math.floor(elapsedTimeS / 3600);
+  const minutes = Math.floor((elapsedTimeS / 60) % 60);
+  const seconds = elapsedTimeS % 60;
+
+  const padTime = (t: number) => {
+    return t >= 10 ? `${t}` : `0${t}`
+  }
   return (
     <div>
-      elapsed time from start: {Math.floor(elapsedTimeS / 60)}:
-      {elapsedTimeS % 60}
+      elapsed time from start:{" "}
+      {hours > 0 ? `${hours}:` : ""}
+      {padTime(minutes)}:
+      {padTime(seconds)}
     </div>
   );
 }
