@@ -15,6 +15,7 @@ export default function FillInTheBlank({
   const [theseAnswers, setTheseAnswers] = useState<string[]>(
     attempt.answers[questionIndex] !== null ? [ ...attempt.answers[questionIndex] ] : question.content.blanks.map((_:any) => "")
   );
+  
 
   const updateBlank = (st: string, ind: number) => {
     let newAnswers = theseAnswers;

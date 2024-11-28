@@ -48,12 +48,12 @@ export function startQuizAttempt(quizId, userId) {
 
   if (!existingAttempts) {
     attempts.push({
-      _id: new Date.now().toString(),
+      _id: new Date().getTime(),
       user: userId,
       quiz: quizId,
       attempts: [
         {
-          start: new Date.now().toString(),
+          start: new Date().getTime(),
           answers: thisQuiz.questions.map((_) => null), // put in a null answer for each question
         },
       ],
@@ -66,7 +66,7 @@ export function startQuizAttempt(quizId, userId) {
   // check if quiz time limit has been reached, if there's an active attempt don't let them start a new one
 
   existingAttempts.attempts.push({
-    start: new Date.now().toString(),
+    start: new Date().getTime(),
     answers: thisQuiz.questions.map((_) => null), // put in a null answer for each question
   });
 
@@ -107,5 +107,20 @@ export function updateAttemptAnswers(quizId, userId, answers) {
   // check time quiz started vs length of quiz to see it update is valid
 
   attempt.answers = answers; // i think this will work bc its all pointers
+  return true;
+}
+
+export function submitAttempt(quizId, userId) {
+  const latestAttempt = getLatestAttempt(quizId, userId);
+
+  if (latestAttempt === null) {
+    return false;
+  }
+
+  const { attempt } = latestAttempt;
+
+  // check time quiz started vs length of quiz to see it update is valid
+
+  attempt.submitted = true;
   return true;
 }

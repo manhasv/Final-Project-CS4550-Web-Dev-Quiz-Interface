@@ -1,9 +1,8 @@
-// QuizDetails.tsx
-
-import React from "react";
 import { useParams, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { setAttempt } from "./Attempt/your_attempt_reducer";
+import * as client from "./client";
+import { useEffect } from "react";
 
 export default function QuizDetails() {
   const { qid } = useParams();
@@ -12,30 +11,57 @@ export default function QuizDetails() {
     state.quizzesReducer.quizzes.find((q: any) => q._id === qid) // this would use the server
   );
 
-  const { attempt } = useSelector((state: any) => state.attemptReducer);
+  const { attempt } = useSelector((state: any) => state.attemptReducer ?? []);
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
   const isStudent = currentUser.role === "STUDENT";
 
   const dispatch = useDispatch();
+  const fetchAttempt = async () => {
+    try {
+      let response = await client.getLatestAttempt(qid || '', currentUser._id);
+      console.log("attempt", response); 
+      if (!response || !response.attempt) {
+        // If no attempt exists, start a new one
+        await client.startAttempt(qid || '', currentUser._id);
+        response = await client.getLatestAttempt(qid || '', currentUser._id);
+      }
+      dispatch(setAttempt(response.attempt));
+    } catch (error) {
+      console.error("Failed to fetch or start attempt:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttempt();
+  }, [qid, currentUser._id]);
 
   const attemptActive = attempt.user === currentUser._id && attempt.quiz === qid; // check for time ?
 
   const handleTakeQuiz = () => {
+    // if (!attemptActive) {
+    //   dispatch(setAttempt({ // this would utilize the server
+    //     _id: "1",
+    //     user: currentUser._id,
+    //     quiz: quiz._id,
+    //     start: new Date().getTime(),
+    //     answers: quiz.questions.map((_:any) => null),
+    //   }));
+    // }
+    navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
+  }
+
+  const handlePreview = () => {
     if (!attemptActive) {
       dispatch(setAttempt({ // this would utilize the server
         _id: "1",
         user: currentUser._id,
         quiz: quiz._id,
-        start: new Date().getTime().toString(),
+        start: new Date().getTime(),
         answers: quiz.questions.map((_:any) => null),
       }));
     }
-    navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
-  }
-
-  const handlePreview = () => {
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Preview`);
   };
 
@@ -51,7 +77,7 @@ export default function QuizDetails() {
           className="btn btn-danger me-2"
           onClick={handleTakeQuiz}
         >
-          {`${attemptActive ? "Resume" : "Start"} Quiz`}
+          
         </button>}
         {isFaculty &&
         <>

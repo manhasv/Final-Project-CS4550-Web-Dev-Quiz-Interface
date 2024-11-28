@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { attempts as initialAttempts } from "../../../Database";
 const initialState = {
-  attempts: initialAttempts,
+  attempts: initialAttempts || [],
 };
 
 const attemptsSlice = createSlice({
@@ -15,7 +15,6 @@ const attemptsSlice = createSlice({
       const newAttempt = {
         _id: new Date().getTime().toString(),
         ...attempt,
-        questions: attempt.questions || [],
       };
       state.attempts.push(newAttempt);
     },
@@ -24,13 +23,12 @@ const attemptsSlice = createSlice({
         a._id === attempt._id ? attempt : a
       );
     },
-    setAttemptScore: (state, { payload: { attemptId, score } }) => {
-      state.attempts = state.attempts.map((a) =>
-        a._id === attemptId ? { ...a, score } : a
-      );
-    },
   },
 });
 
-export const {} = attemptsSlice.actions;
+export const {
+  setAttempts,
+  addAttempt,
+  updateAttempt,
+} = attemptsSlice.actions;
 export default attemptsSlice.reducer;
