@@ -7,11 +7,14 @@ declare type QuestionSetter = {
 
 const initialState = {
   attempt: {
-    _id: "1",
-    user: "uid",
-    quiz: "qid",
-    start: "time string",
-    answers: [null, null, "", [""]],
+    _id: "",
+    user: "",
+    quiz: "",
+    start: "",
+    answers: [] as any[],
+    submitted: false,
+    score: 0,
+    grade: 0,
   },
 };
 

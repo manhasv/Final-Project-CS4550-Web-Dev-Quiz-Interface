@@ -60,6 +60,9 @@ export default function Quiz({
     try {
       await client.submitAttempt(qid || "", currentUser._id);
       setShowSubmitDialog(false);
+  
+      // Fetch the latest attempt to get updated data
+      await fetchAttempt();
     } catch (error) {
       console.error("Failed to submit attempt:", error);
     }
@@ -80,16 +83,24 @@ export default function Quiz({
               question={q}
               questionNumber={index + 1}
               point={q.content.point}
+              isDisabled={attempt.submitted} // Pass isDisabled prop
             />
           </li>
         ))}
       </ul>
 
-      <div className="d-flex justify-content-end mt-3">
-        <button className="btn btn-primary" onClick={() => setShowSubmitDialog(true)}>
-          Submit Quiz
-        </button>
-      </div>
+      {attempt.submitted ? (
+        <div className="d-flex justify-content-end mt-3">
+          <h4>Your score: {attempt.score} / {thisQuiz.totalPoints}</h4>
+          <h5>Grade: {attempt.grade.toFixed(2)}%</h5>
+        </div>
+      ) : (
+        <div className="d-flex justify-content-end mt-3">
+          <button className="btn btn-primary" onClick={() => setShowSubmitDialog(true)}>
+            Submit Quiz
+          </button>
+        </div>
+      )}
 
       {showSubmitDialog && (
         <div className="modal fade show d-block" tabIndex={-1} role="dialog" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>

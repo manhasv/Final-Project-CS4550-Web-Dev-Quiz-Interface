@@ -18,13 +18,13 @@ export default function FillInTheBlank({
   
 
   const updateBlank = (st: string, ind: number) => {
-    let newAnswers = theseAnswers;
+    let newAnswers = [...theseAnswers];
     newAnswers[ind] = st;
     setTheseAnswers(newAnswers);
     dispatch(
       setAnswer({
         questionIndex,
-        answer: [...theseAnswers],
+        answer: [...newAnswers],
       })
     );
   };

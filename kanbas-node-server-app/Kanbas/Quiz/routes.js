@@ -36,4 +36,8 @@ export default function QuizRoutes(app) {
         const didSubmitAttempt = quizDao.submitAttempt(quizId, userId);
         res.sendStatus(didSubmitAttempt ? 200 : 400);
     });
+    app.get("/api/quizz/:quizId/attempts/:userId", (req, res) => {
+        const { quizId, userId } = req.params;
+        res.send(quizDao.getAllAttempts(quizId, userId));
+    });
 }

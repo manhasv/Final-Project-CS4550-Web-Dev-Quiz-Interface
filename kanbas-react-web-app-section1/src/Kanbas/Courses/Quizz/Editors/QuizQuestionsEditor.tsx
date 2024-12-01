@@ -144,7 +144,7 @@ export default function QuizQuestionsEditor() {
               return (
                 <div>
                   {" "}
-                  <Question question={q} questionNumber={n + 1} point={q.content.point} />
+                  <Question question={q} questionNumber={n + 1} point={q.content.point} isDisabled={true} />
                   <br />
                   <br />
                 </div>

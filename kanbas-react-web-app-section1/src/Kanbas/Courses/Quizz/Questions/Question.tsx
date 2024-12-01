@@ -7,10 +7,12 @@ export default function Question({
   question,
   questionNumber,
   point,
+  isDisabled,
 }: {
   question: any;
   questionNumber: number;
   point: number;
+  isDisabled: boolean;
 }) {
   const questionType: string = question.type; // get this based on the quiz id and question number
   return (

@@ -31,3 +31,8 @@ export const submitAttempt = async (quizId: string, userId: string) => {
     const response = await axios.post(`${QUIZZ_API}/${quizId}/attempt/${userId}/submit`);
     return response.data;
 };
+
+export const getAllAttempts = async (quizId: string, userId: string) => {
+    const response = await axios.get(`${QUIZZ_API}/${quizId}/attempts/${userId}`);
+    return response.data;
+};

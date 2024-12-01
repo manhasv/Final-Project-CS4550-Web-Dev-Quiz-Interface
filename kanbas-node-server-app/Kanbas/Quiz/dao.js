@@ -110,6 +110,20 @@ export function updateAttemptAnswers(quizId, userId, answers) {
   return true;
 }
 
+export function getAllAttempts(quizId, userId) {
+  const { attempts } = Database;
+
+  const userAttempts = attempts.find(
+    (att) => att.quiz === quizId && att.user === userId
+  );
+
+  if (!userAttempts || !userAttempts.attempts) {
+    return [];
+  }
+
+  return userAttempts.attempts;
+}
+
 export function submitAttempt(quizId, userId) {
   const latestAttempt = getLatestAttempt(quizId, userId);
 
@@ -118,9 +132,58 @@ export function submitAttempt(quizId, userId) {
   }
 
   const { attempt } = latestAttempt;
+  const { quizzes } = Database;
+  const thisQuiz = quizzes.find((quiz) => quiz._id === quizId);
 
-  // check time quiz started vs length of quiz to see it update is valid
+  if (!thisQuiz) {
+    return false;
+  }
 
+  // Calculate total points
+  const totalPoints = thisQuiz.questions.reduce(
+    (sum, question) => sum + (question.content.point || 1),
+    0
+  );
+
+  // Calculate user's score
+  let score = 0;
+  thisQuiz.questions.forEach((question, index) => {
+    const userAnswer = attempt.answers[index];
+    const correctAnswer = question.content.correctAnswer; 
+
+    if (compareAnswers(question.type, userAnswer, correctAnswer)) {
+      score += question.content.point || 1;
+    }
+  });
+
+  const grade = (score / totalPoints) * 100;
+
+  // Update attempt with score and submission status
   attempt.submitted = true;
+  attempt.score = score;
+  attempt.grade = grade;
+
   return true;
+}
+
+// Helper function to compare answers based on question type
+function compareAnswers(questionType, userAnswer, correctAnswer) {
+  switch (questionType) {
+    case 'TRUEFALSE':
+      console.log("userAnswer", userAnswer);
+      console.log("correctAnswer", correctAnswer);
+      return userAnswer === correctAnswer;
+    case 'MULTIPLECHOICE':
+      return userAnswer === correctAnswer;
+    case 'FILLINTHEBLANK':
+      if (!Array.isArray(userAnswer) || !Array.isArray(correctAnswer)) {
+        return false;
+      }
+      if (userAnswer.length !== correctAnswer.length) {
+        return false;
+      }
+      return userAnswer.every((ans, idx) => ans === correctAnswer[idx]);
+    default:
+      return false;
+  }
 }
