@@ -4,9 +4,11 @@ import { setAnswer } from "../Attempt/your_attempt_reducer";
 export default function TrueFalse({
   questionIndex,
   question,
+  handleAnswerChange,
 }: {
   questionIndex: number;
   question: any;
+  handleAnswerChange?: (questionIndex: number, answer: any) => void;
 }) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
   const dispatch = useDispatch();
@@ -23,8 +25,12 @@ export default function TrueFalse({
             attempt.answers[questionIndex] === true
           }
           onChange={(e) => {
-            if (attempt[questionIndex] !== e.target.checked) {
-              dispatch(setAnswer({ questionIndex, answer: e.target.checked }));
+            if (e.target.checked) {
+              const answer = true;
+              dispatch(setAnswer({ questionIndex, answer }));
+              if (handleAnswerChange) {
+                handleAnswerChange(questionIndex, answer); // Call if exists
+              }
             }
           }}
         ></input>

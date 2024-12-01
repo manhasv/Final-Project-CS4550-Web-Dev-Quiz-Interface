@@ -8,27 +8,30 @@ export default function Question({
   questionNumber,
   point,
   isDisabled,
+  handleAnswerChange, 
 }: {
   question: any;
   questionNumber: number;
   point: number;
   isDisabled: boolean;
+  handleAnswerChange?: (questionIndex: number, answer: any) => void;
 }) {
   const questionType: string = question.type; // get this based on the quiz id and question number
   return (
     <div>
       <QuestionHeader
-        isStudentTaking={true}
+        isStudentTaking={isDisabled}
         questionNumber={questionNumber}
         points={point}
       />
       <div className="bg-light border border-2 border-top-0 border-dark p-2">
-        {questionType == "TRUEFALSE" && <TrueFalse questionIndex={questionNumber - 1} question={question} />}
+        {questionType == "TRUEFALSE" && <TrueFalse questionIndex={questionNumber - 1} question={question} 
+        handleAnswerChange={handleAnswerChange}/>}
         {questionType == "MULTIPLECHOICE" && (
-          <MultipleChoice questionIndex={questionNumber - 1} question={question} />
+          <MultipleChoice questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
         )}
         {questionType == "FILLINTHEBLANK" && (
-          <FillInTheBlank questionIndex={questionNumber - 1} question={question} />
+          <FillInTheBlank questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
         )}
       </div>
     </div>

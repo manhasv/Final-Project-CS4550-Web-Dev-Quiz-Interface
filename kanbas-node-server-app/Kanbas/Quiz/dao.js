@@ -126,15 +126,14 @@ export function getAllAttempts(quizId, userId) {
 
 export function submitAttempt(quizId, userId) {
   const latestAttempt = getLatestAttempt(quizId, userId);
-
   if (latestAttempt === null) {
     return false;
   }
 
   const { attempt } = latestAttempt;
+  console.log("attempt", attempt);
   const { quizzes } = Database;
   const thisQuiz = quizzes.find((quiz) => quiz._id === quizId);
-
   if (!thisQuiz) {
     return false;
   }
@@ -149,7 +148,9 @@ export function submitAttempt(quizId, userId) {
   let score = 0;
   thisQuiz.questions.forEach((question, index) => {
     const userAnswer = attempt.answers[index];
-    const correctAnswer = question.content.correctAnswer; 
+    const correctAnswer = question.content.answer; 
+    console.log("userAnswer", userAnswer);
+    console.log("correctAnswer", correctAnswer);
 
     if (compareAnswers(question.type, userAnswer, correctAnswer)) {
       score += question.content.point || 1;
@@ -170,8 +171,8 @@ export function submitAttempt(quizId, userId) {
 function compareAnswers(questionType, userAnswer, correctAnswer) {
   switch (questionType) {
     case 'TRUEFALSE':
-      console.log("userAnswer", userAnswer);
-      console.log("correctAnswer", correctAnswer);
+      //console.log("userAnswer", userAnswer);
+      //console.log("correctAnswer", correctAnswer);
       return userAnswer === correctAnswer;
     case 'MULTIPLECHOICE':
       return userAnswer === correctAnswer;

@@ -3,7 +3,7 @@ export default [
     _id: "Q101",
     title: "Intro to JavaScript",
     course: "RS101",
-    points: 65,
+    points: 30,
     availableDate: "2024-11-03",
     dueDate: "2024-11-05",
     untilDate: "2024-11-05",

@@ -23,6 +23,7 @@ export default function Quiz({
   const { currentUser } = useSelector((state: any) => state.accountReducer ?? []);
   const { attempt } = useSelector((state: any) => state.attemptReducer ?? []);
   const thisQuiz = quizzes.find((quiz: any) => quiz._id === qid); // this would pull from server
+  console.log("thisQuiz", thisQuiz);
 
   const fetchAttempt = async () => {
     try {
@@ -83,7 +84,8 @@ export default function Quiz({
               question={q}
               questionNumber={index + 1}
               point={q.content.point}
-              isDisabled={attempt.submitted} // Pass isDisabled prop
+              isDisabled={attempt.submitted} 
+              handleAnswerChange={handleAnswerChange}
             />
           </li>
         ))}
@@ -91,8 +93,7 @@ export default function Quiz({
 
       {attempt.submitted ? (
         <div className="d-flex justify-content-end mt-3">
-          <h4>Your score: {attempt.score} / {thisQuiz.totalPoints}</h4>
-          <h5>Grade: {attempt.grade.toFixed(2)}%</h5>
+          <h4>Your score: {attempt.score} / {thisQuiz.points}</h4>
         </div>
       ) : (
         <div className="d-flex justify-content-end mt-3">

@@ -5,9 +5,11 @@ import { setAnswer } from "../Attempt/your_attempt_reducer";
 export default function FillInTheBlank({
   questionIndex,
   question,
+  handleAnswerChange,
 } : {
   questionIndex: number;
   question: any;
+  handleAnswerChange?: (questionIndex: number, answer: any) => void;
 }) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
   const dispatch = useDispatch();
@@ -27,6 +29,9 @@ export default function FillInTheBlank({
         answer: [...newAnswers],
       })
     );
+    if (handleAnswerChange) {
+      handleAnswerChange(questionIndex, [...newAnswers]);
+    }
   };
 
   return (

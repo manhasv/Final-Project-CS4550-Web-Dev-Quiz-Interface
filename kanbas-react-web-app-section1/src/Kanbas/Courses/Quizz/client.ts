@@ -23,6 +23,7 @@ export const getLatestAttempt = async (quizId: string, userId: string) => {
 };
 
 export const updateAttemptAnswers = async (quizId: string, userId: string, answers: any) => {
+    console.log("answers", answers);
     const response = await axios.put(`${QUIZZ_API}/${quizId}/attempt/${userId}`, answers);
     return response.data;
 };

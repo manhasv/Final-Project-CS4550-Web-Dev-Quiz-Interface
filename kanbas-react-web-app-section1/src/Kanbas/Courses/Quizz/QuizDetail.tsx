@@ -40,28 +40,10 @@ export default function QuizDetails() {
   const attemptActive = attempt.user === currentUser._id && attempt.quiz === qid; // check for time ?
 
   const handleTakeQuiz = () => {
-    // if (!attemptActive) {
-    //   dispatch(setAttempt({ // this would utilize the server
-    //     _id: "1",
-    //     user: currentUser._id,
-    //     quiz: quiz._id,
-    //     start: new Date().getTime(),
-    //     answers: quiz.questions.map((_:any) => null),
-    //   }));
-    // }
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
   }
 
   const handlePreview = () => {
-    if (!attemptActive) {
-      dispatch(setAttempt({ // this would utilize the server
-        _id: "1",
-        user: currentUser._id,
-        quiz: quiz._id,
-        start: new Date().getTime(),
-        answers: quiz.questions.map((_:any) => null),
-      }));
-    }
     navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Preview`);
   };
 
