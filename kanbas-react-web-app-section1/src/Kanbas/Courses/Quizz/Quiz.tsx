@@ -9,8 +9,8 @@ import Time from "./Time";
 
 export default function Quiz({ isPreview }: { isPreview: boolean }) {
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
-  const [freezeTime, setFreezeTime] = useState<number | undefined>(undefined);
   const { qid } = useParams();
+  let questionNum = parseInt(useParams().questionNum || "1");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,13 +23,15 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
   );
   const { attempt } = useSelector((state: any) => state.attemptReducer ?? []);
   const thisQuiz = quizzes.find((quiz: any) => quiz._id === qid); // this would pull from server
-  console.log("thisQuiz", thisQuiz);
+
+  if (questionNum < 1 || questionNum > thisQuiz.questions.length) {
+    questionNum = 1;
+  }
 
   const fetchAttempt = async () => {
     try {
       let response = await client.getLatestAttempt(qid || "", currentUser._id);
       console.log("attempt", response);
-      setFreezeTime(response.attempt.submittedAt);
       dispatch(setAttempt(response.attempt));
     } catch (error) {
       console.error("Failed to fetch or start attempt:", error);
@@ -76,18 +78,20 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>{thisQuiz.title}</h2>
         {attempt.submitted ? (
-          <Time elapsedS={Math.floor((attempt.submittedAt - attempt.start)/1000)} />
+          <Time
+            elapsedS={Math.floor((attempt.submittedAt - attempt.start) / 1000)}
+          />
         ) : (
           <Timer startTime={attempt.start} />
         )}
       </div>
 
       <ul className="list-group">
-        {thisQuiz.questions.map((q: any, index: any) => (
+        {(thisQuiz.oneQuestionPerPage ? [thisQuiz.questions[questionNum - 1]] : thisQuiz.questions).map((q: any, index: any) => (
           <li key={index} className="list-group-item">
             <Question
               question={q}
-              questionNumber={index + 1}
+              questionNumber={thisQuiz.oneQuestionPerPage ? questionNum : index + 1}
               point={q.content.point}
               isDisabled={attempt.submitted}
               handleAnswerChange={handleAnswerChange}
@@ -95,6 +99,23 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
           </li>
         ))}
       </ul>
+
+      {thisQuiz.oneQuestionPerPage && (
+        <div className="p-2">
+          {questionNum < thisQuiz.questions.length && <button 
+            className="float-end btn btn-secondary" 
+            onClick={() => navigate(`/Kanbas/Courses/${thisQuiz.course}/Quizzes/${thisQuiz._id}/Take/${questionNum + 1}`)}>
+            Next Question
+          </button>}
+          {questionNum > 1 && <button 
+            className="btn btn-secondary" 
+            onClick={() => navigate(`/Kanbas/Courses/${thisQuiz.course}/Quizzes/${thisQuiz._id}/Take/${questionNum - 1}`)}>
+            Previous Question
+          </button>}
+        </div>
+      )}
+
+      <br />
 
       {attempt.submitted ? (
         <div className="d-flex justify-content-end mt-3">

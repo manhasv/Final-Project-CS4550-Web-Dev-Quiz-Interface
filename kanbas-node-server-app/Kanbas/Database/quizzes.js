@@ -39,6 +39,7 @@ export default [
     description: "javascript",
     type: "Graded Quiz",
     shuffleAnswers: false,
+    oneQuestionPerPage: false,
     timeLimit: "20",
   },
   {
@@ -54,6 +55,7 @@ export default [
     description: "data structures",
     type: "Graded Quiz",
     shuffleAnswers: false,
+    oneQuestionPerPage: false,
     timeLimit: "20",
   },
   {
@@ -69,6 +71,7 @@ export default [
     description: "algo",
     type: "Graded Quiz",
     shuffleAnswers: false,
+    oneQuestionPerPage: false,
     timeLimit: "20",
   },
 ];

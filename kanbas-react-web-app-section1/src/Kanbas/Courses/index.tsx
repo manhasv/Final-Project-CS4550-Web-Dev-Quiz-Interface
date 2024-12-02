@@ -38,6 +38,7 @@ export default function Courses() {
         <Route path="Quizzes/:qid/Questions" element={<QuizQuestionsEditor />} />
         <Route path="Quizzes/New" element={<QuizEditor />} />
         <Route path="Quizzes/:qid/Take" element={<Quiz isPreview={false} />} />
+        <Route path="Quizzes/:qid/Take/:questionNum" element={<Quiz isPreview={false} />} />
         <Route path="Quizzes/:qid/Preview" element={<Quiz isPreview={true} />} />
         <Route path="People" element={<PeopleTable />} />
       </Routes>

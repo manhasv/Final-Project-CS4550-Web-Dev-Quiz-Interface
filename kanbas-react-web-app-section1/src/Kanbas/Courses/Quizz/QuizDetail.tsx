@@ -48,7 +48,7 @@ export default function QuizDetails() {
     if (!attemptActive || startNew) {
       await startAttempt();
     }
-    navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take`);
+    navigate(`/Kanbas/Courses/${quiz.course}/Quizzes/${quiz._id}/Take${quiz.oneQuestionAtATime ? "/1" : ""}`);
   };
 
   const handlePreview = async () => {
