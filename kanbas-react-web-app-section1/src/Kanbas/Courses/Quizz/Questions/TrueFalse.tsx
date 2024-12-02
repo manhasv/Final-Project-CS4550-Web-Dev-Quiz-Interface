@@ -5,10 +5,12 @@ export default function TrueFalse({
   questionIndex,
   question,
   handleAnswerChange,
+  isDisabled,
 }: {
   questionIndex: number;
   question: any;
   handleAnswerChange?: (questionIndex: number, answer: any) => void;
+  isDisabled: boolean;
 }) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
   const dispatch = useDispatch();
@@ -33,7 +35,8 @@ export default function TrueFalse({
               }
             }
           }}
-        ></input>
+          disabled={isDisabled}
+        />
         True
       </label>
       <br />
@@ -50,7 +53,8 @@ export default function TrueFalse({
               dispatch(setAnswer({ questionIndex, answer: !e.target.checked }));
             }
           }}
-        ></input>
+          disabled={isDisabled}
+        />
         False
       </label>
     </div>

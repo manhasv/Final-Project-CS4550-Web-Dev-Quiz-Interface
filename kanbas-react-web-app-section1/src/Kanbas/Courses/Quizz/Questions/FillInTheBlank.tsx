@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnswer } from "../Attempt/your_attempt_reducer";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 export default function FillInTheBlank({
   questionIndex,
   question,
   handleAnswerChange,
+  isDisabled,
 } : {
   questionIndex: number;
   question: any;
   handleAnswerChange?: (questionIndex: number, answer: any) => void;
+  isDisabled: boolean;
 }) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
   const dispatch = useDispatch();
@@ -50,6 +53,7 @@ export default function FillInTheBlank({
                 onChange={(e) => {
                   updateBlank(e.target.value, index);
                 }}
+                disabled={isDisabled}
               ></input>
             </label>
           </>

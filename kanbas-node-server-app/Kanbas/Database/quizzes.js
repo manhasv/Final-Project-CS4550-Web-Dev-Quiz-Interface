@@ -35,6 +35,11 @@ export default [
         },
       },
     ],
+    multipleAttempts: true,
+    description: "javascript",
+    type: "Graded Quiz",
+    shuffleAnswers: false,
+    timeLimit: "20",
   },
   {
     _id: "Q102",

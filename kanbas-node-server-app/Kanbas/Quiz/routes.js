@@ -23,7 +23,12 @@ export default function QuizRoutes(app) {
     app.post("/api/quizz/:quizId/attempt/:userId", (req, res) => {
         const { quizId, userId } = req.params;
         const didAddAttempt = quizDao.startQuizAttempt(quizId, userId);
-        res.sendStatus(didAddAttempt ? 201 : 400);
+        // res.sendStatus(didAddAttempt ? 201 : 400);
+        if (didAddAttempt) {
+            res.json(quizDao.getLatestAttempt(quizId, userId));
+        } else {
+            res.sendStatus(400);
+        }
     });
     app.put("/api/quizz/:quizId/attempt/:userId", (req, res) => {
         const { quizId, userId } = req.params;

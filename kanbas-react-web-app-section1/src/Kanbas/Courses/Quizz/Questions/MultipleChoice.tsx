@@ -5,10 +5,12 @@ export default function MultipleChoice({
   questionIndex,
   question,
   handleAnswerChange,
+  isDisabled,
 }: {
   questionIndex: number;
   question: any;
   handleAnswerChange?: (questionIndex: number, answer: any) => void;
+  isDisabled: boolean;
 }) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
   const dispatch = useDispatch();
@@ -33,7 +35,8 @@ export default function MultipleChoice({
                     }
                   }
                 }}
-              ></input>
+                disabled={isDisabled}
+              />
               {choice}
             </label>
           </>

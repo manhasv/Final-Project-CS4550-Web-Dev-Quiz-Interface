@@ -94,7 +94,7 @@ export function getLatestAttempt(quizId, userId) {
   }
 
   const attIndex = existingAttempts.attempts.length - 1;
-  return { attemptNumber: attIndex + 1, attempt: existingAttempts.attempts[attIndex] }; // gets last element
+  return { attemptNumber: attIndex + 1, user: userId, quiz: quizId, attempt: existingAttempts.attempts[attIndex] }; // gets last element
 }
 
 export function updateAttemptAnswers(quizId, userId, answers) {
@@ -161,6 +161,7 @@ export function submitAttempt(quizId, userId) {
 
   // Update attempt with score and submission status
   attempt.submitted = true;
+  attempt.submittedAt = Date.now();
   attempt.score = score;
   attempt.grade = grade;
 

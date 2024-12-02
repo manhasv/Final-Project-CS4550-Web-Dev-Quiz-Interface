@@ -25,13 +25,13 @@ export default function Question({
         points={point}
       />
       <div className="bg-light border border-2 border-top-0 border-dark p-2">
-        {questionType == "TRUEFALSE" && <TrueFalse questionIndex={questionNumber - 1} question={question} 
+        {questionType == "TRUEFALSE" && <TrueFalse isDisabled={isDisabled} questionIndex={questionNumber - 1} question={question} 
         handleAnswerChange={handleAnswerChange}/>}
         {questionType == "MULTIPLECHOICE" && (
-          <MultipleChoice questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
+          <MultipleChoice isDisabled={isDisabled} questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
         )}
         {questionType == "FILLINTHEBLANK" && (
-          <FillInTheBlank questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
+          <FillInTheBlank isDisabled={isDisabled} questionIndex={questionNumber - 1} question={question} handleAnswerChange={handleAnswerChange}/>
         )}
       </div>
     </div>
