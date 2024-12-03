@@ -8,6 +8,10 @@ import ModuleRoutes from "./Kanbas/Modules/routes.js";
 import QuizRoutes from "./Kanbas/Quiz/routes.js";
 import session from "express-session";
 import "dotenv/config";
+import mongoose from "mongoose";
+
+const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
+mongoose.connect(CONNECTION_STRING);
 
 const app = express();
 app.use(cors({

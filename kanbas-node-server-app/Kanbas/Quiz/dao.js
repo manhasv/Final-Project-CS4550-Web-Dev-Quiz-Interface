@@ -1,29 +1,21 @@
 import Database from "../Database/index.js";
+import quizModel from "./quizModel.js";
 
 export function findQuizzesForCourse(courseId) {
-  const { quizzes } = Database;
-  return quizzes.filter((quiz) => quiz.course === courseId);
+  return quizModel.find({ course: courseId });
 }
 export function createQuiz(quiz) {
   if (!quiz.hasOwnProperty("questions") || !Array.isArray(quiz.questions)) {
     quiz.questions = [];
   }
-  const newQuiz = { ...quiz, _id: Date.now().toString() };
-  Database.quizzes = [...Database.quizzes, newQuiz];
-  return newQuiz;
+  delete quiz._id
+  return quizModel.create(quiz);
 }
 export function deleteQuiz(quizId) {
-  const { quizzes } = Database;
-  Database.quizzes = quizzes.filter((quiz) => quiz._id !== quizId);
+  return quizModel.deleteOne({ _id: quizId });
 }
 export function updateQuiz(quizId, quizUpdates) {
-  const { quizzes } = Database;
-  console.log("quizId", quizId);
-  console.log("quizzes", quizzes);
-  console.log("quizUpdates", quizUpdates);
-  const quiz = quizzes.find((quiz) => quiz._id === quizId);
-  Object.assign(quiz, quizUpdates);
-  return quiz;
+  return quizModel.updateOne({ _id: quizId }, quizUpdates);
 }
 
 export function startQuizAttempt(quizId, userId) {

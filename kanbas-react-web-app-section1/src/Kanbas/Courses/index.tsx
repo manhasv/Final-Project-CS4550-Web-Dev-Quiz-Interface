@@ -12,10 +12,25 @@ import QuizDetails from "./Quizz/QuizDetail";
 import QuizEditor from "./Quizz/Editors/QuizDetailEditor";
 import Quiz from "./Quizz/Quiz";
 import QuizQuestionsEditor from "./Quizz/Editors/QuizQuestionsEditor";
+import { useEffect, useState } from "react";
+import * as client from "./client";
+
 export default function Courses() {
   const { pathname } = useLocation();
   const { cid } = useParams();
   const course = courses.find((course) => course._id === cid);
+  
+  const [users, setUsers] = useState<any[]>([]);
+
+  const fetchUsers = async () => {
+    const users = await client.findUsersForCourse(cid ?? '');
+    setUsers(users);
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [cid]);
+  
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
@@ -40,9 +55,10 @@ export default function Courses() {
         <Route path="Quizzes/:qid/Take" element={<Quiz isPreview={false} />} />
         <Route path="Quizzes/:qid/Take/:questionNum" element={<Quiz isPreview={false} />} />
         <Route path="Quizzes/:qid/Preview" element={<Quiz isPreview={true} />} />
-        <Route path="People" element={<PeopleTable />} />
+        <Route path="People" element={<PeopleTable users={users}/>} />
       </Routes>
       </div>
     </div>
   </div>
 );}
+
