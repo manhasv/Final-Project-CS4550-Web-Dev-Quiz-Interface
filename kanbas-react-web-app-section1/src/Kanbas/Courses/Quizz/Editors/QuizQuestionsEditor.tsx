@@ -23,6 +23,9 @@ export default function QuizQuestionsEditor() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const quizzes = useSelector((state: any) =>
+    state.quizzesReducer.quizzes
+  );
   const quiz = useSelector((state: any) =>
     state.quizzesReducer.quizzes.find((q: any) => q._id === qid)
   );
@@ -129,14 +132,16 @@ export default function QuizQuestionsEditor() {
   };
 
   const fetchQuiz = async () => {
-    const quiz = await coursesClient.findQuizForCourse(cid as string);
-    // alert(`did fetch quiz ${JSON.stringify(quiz)}`);
-    dispatch(setQuiz(quiz));
-    setQuestions(quiz.find((q:any) => q._id == qid)?.questions || []);
+    const newquiz = await coursesClient.findQuizForCourse(cid as string);
+    alert(`populating reducer ${JSON.stringify(quiz)}`);
+    dispatch(setQuiz(newquiz));
+    setQuestions(newquiz.find((q:any) => q._id == qid)?.questions || []);
   };
   useEffect(() => {
-    fetchQuiz();
-  }, []);
+    if (quizzes.length === 0) {
+      fetchQuiz();
+    }
+  }, [qid]);
 
   return (
     <div className="container mt-4">
