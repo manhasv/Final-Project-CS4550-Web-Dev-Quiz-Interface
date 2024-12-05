@@ -6,9 +6,9 @@ export async function startQuizAttempt(quizId, userId) {
   const q = await quizModel.findById(quizId);
 
   if (existingAttempts !== null) {
-    if (!q || !q.multipleAttempts || (q.multipleAttempts && existingAttempts.attempts.length >= q.allowedAttempts)) {
-      return existingAttempts;
-    }
+    // if (!q || !q.multipleAttempts || (q.multipleAttempts && existingAttempts.attempts.length >= q.allowedAttempts)) {
+    //   return existingAttempts;
+    // } // ignore this check for now
     existingAttempts.attempts.push({
       start: Date.now(),
       submitted: false,
