@@ -23,7 +23,7 @@ export default function MultipleChoice({
             <br />
             <label>
               <input
-                name={`MC#${question._id}`}
+                name={`MC#${questionIndex}`}
                 type="radio"
                 value={choice}
                 defaultChecked={choice === attempt.answers[questionIndex]}

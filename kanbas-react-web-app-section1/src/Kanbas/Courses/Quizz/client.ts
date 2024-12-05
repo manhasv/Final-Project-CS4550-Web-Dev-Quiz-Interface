@@ -15,10 +15,12 @@ export const updateQuizz = async (quizz: any) => {
 // attempt
 export const startAttempt = async (quizId: string, userId: string) => {
     const response = await axios.post(`${QUIZZ_API}/${quizId}/attempt/${userId}`);
+    // alert(`This is the response from client sa: ${JSON.stringify(response)}`)
     return response.data;
 };
 export const getLatestAttempt = async (quizId: string, userId: string) => {
     const response = await axios.get(`${QUIZZ_API}/${quizId}/attempt/${userId}`);
+    // alert(`This is the response from client gla: ${JSON.stringify(response)}`)
     return response.data;
 };
 

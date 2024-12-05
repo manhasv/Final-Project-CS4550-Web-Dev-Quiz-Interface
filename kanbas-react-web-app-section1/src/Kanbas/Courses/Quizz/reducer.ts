@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { quizzes as initialQuizzes } from "../../Database";
+// import { quizzes as initialQuizzes } from "../../Database";
 
 const initialState = {
-  quizzes: initialQuizzes,
+  quizzes: <any>[],
 };
 
 const quizzesSlice = createSlice({
@@ -22,22 +22,22 @@ const quizzesSlice = createSlice({
       state.quizzes.push(newQuiz);
     },
     deleteQuiz: (state, { payload: quizId }) => {
-      state.quizzes = state.quizzes.filter((q) => q._id !== quizId);
+      state.quizzes = state.quizzes.filter((q:any) => q._id !== quizId);
     },
     updateQuiz: (state, { payload: quiz }) => {
-      state.quizzes = state.quizzes.map((q) =>
+      state.quizzes = state.quizzes.map((q:any) =>
         q._id === quiz._id
           ? quiz
           : q
       ); 
     },
     editQuiz: (state, { payload: quizId }) => {
-      state.quizzes = state.quizzes.map((q) =>
+      state.quizzes = state.quizzes.map((q:any) =>
         q._id === quizId ? { ...q, editing: true } : q
       );
     },
     setQuizScore: (state, { payload: { quizId, score } }) => {
-      state.quizzes = state.quizzes.map((q) =>
+      state.quizzes = state.quizzes.map((q:any) =>
         q._id === quizId ? { ...q, score } : q
       );
     },

@@ -20,7 +20,7 @@ export default function TrueFalse({
       <br />
       <label>
         <input
-          name={`TF#${question._id}`}
+          name={`TF#${questionIndex}`}
           type="radio"
           value="true"
           defaultChecked={
@@ -42,7 +42,7 @@ export default function TrueFalse({
       <br />
       <label>
         <input
-          name={`TF#${question._id}`}
+          name={`TF#${questionIndex}`}
           type="radio"
           value="false"
           defaultChecked={

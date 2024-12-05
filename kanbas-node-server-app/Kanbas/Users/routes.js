@@ -27,12 +27,12 @@ export default function UserRoutes(app) {
     }
     
     const users = await dao.findAllUsers();
-    console.log(users);
+    // console.log(users);
     res.json(users);
   };
 
   const findUserById = async (req, res) => {
-    console.log("route id:", req.params.userId);
+    // console.log("route id:", req.params.userId);
     const user = await dao.findUserById(req.params.userId);
     
     res.json(user);
@@ -130,7 +130,7 @@ export default function UserRoutes(app) {
       uid = currentUser._id;
     }
     const status = await enrollmentsDao.enrollUserInCourse(uid, cid);
-    console.log(status);
+    // console.log(status);
     res.send(status);
   };
   const unenrollUserFromCourse = async (req, res) => {

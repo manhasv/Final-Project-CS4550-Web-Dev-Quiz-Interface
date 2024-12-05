@@ -12,6 +12,7 @@ export default function Quizzes() {
   const dispatch = useDispatch();
 
   const quizzes = useSelector((state: any) => state.quizzesReducer?.quizzes ?? []);
+  // alert(JSON.stringify(quizzes));
   const filteredQuizzes = quizzes.filter((quiz: any) => quiz.course === cid);
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser?.role === "FACULTY";

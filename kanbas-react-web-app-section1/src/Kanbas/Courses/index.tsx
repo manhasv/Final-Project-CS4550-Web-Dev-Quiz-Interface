@@ -1,4 +1,4 @@
-import { courses } from "../Database";
+// import { courses } from "../Database";
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
@@ -18,7 +18,7 @@ import * as client from "./client";
 export default function Courses() {
   const { pathname } = useLocation();
   const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
+  const course = { name: "COURSE NAME NOT BEING SOURCED FROM SERVER"}; // courses.find((course) => course._id === cid);
   
   const [users, setUsers] = useState<any[]>([]);
 

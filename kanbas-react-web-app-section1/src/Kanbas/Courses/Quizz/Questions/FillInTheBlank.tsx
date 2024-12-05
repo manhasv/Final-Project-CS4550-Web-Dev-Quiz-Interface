@@ -18,7 +18,7 @@ export default function FillInTheBlank({
   const dispatch = useDispatch();
 
   const [theseAnswers, setTheseAnswers] = useState<string[]>(
-    attempt.answers[questionIndex] !== null ? [ ...attempt.answers[questionIndex] ] : question.content.blanks.map((_:any) => "")
+    attempt.answers[questionIndex] ? [ ...attempt.answers[questionIndex] ] : question.content.blanks.map((_:any) => "")
   );
   
 
@@ -48,7 +48,7 @@ export default function FillInTheBlank({
               {textForBlank}
               <input
                 defaultValue={
-                  attempt.answers[questionIndex] !== null ? attempt.answers[questionIndex][index] : ""
+                  attempt.answers[questionIndex] ? attempt.answers[questionIndex][index] : ""
                 }
                 onChange={(e) => {
                   updateBlank(e.target.value, index);

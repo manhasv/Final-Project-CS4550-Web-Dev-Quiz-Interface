@@ -11,7 +11,7 @@ export default function QuizDetails() {
     (state: any) => state.quizzesReducer.quizzes.find((q: any) => q._id === qid) // this would use the server
   );
 
-  const { attempt } = useSelector((state: any) => state.attemptReducer ?? []);
+  const { attempt } = useSelector((state: any) => state.attemptReducer);
 
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const isFaculty = currentUser.role === "FACULTY";
@@ -22,7 +22,7 @@ export default function QuizDetails() {
     try {
       let response = await client.getLatestAttempt(qid || "", currentUser._id);
       console.log("fetch attempt", response);
-      dispatch(setAttempt(response.attempt));
+      dispatch(setAttempt(response)); // the response is now the attempt
     } catch (error) {
       console.error("Failed to fetch or start attempt:", error);
     }
@@ -32,7 +32,7 @@ export default function QuizDetails() {
     try {
       let response = await client.startAttempt(qid || "", currentUser._id); // i think this should return the latest attempt
       console.log("start attempt", response);
-      dispatch(setAttempt(response.attempt));
+      dispatch(setAttempt(response));
     } catch (error) {
       console.error("Failed to fetch or start attempt:", error);
     }
@@ -40,7 +40,7 @@ export default function QuizDetails() {
 
   useEffect(() => {
     fetchAttempt();
-  }, [qid, currentUser._id]);
+  }, []);
 
   const attemptActive: boolean = attempt; // check for time ?
 
@@ -78,6 +78,8 @@ export default function QuizDetails() {
 
   return (
     <div className="container mt-4 text-center">
+      {attempt == undefined && "UNDEFINED HEY"}
+      {JSON.stringify(attempt)}
       {/* Centered Buttons and Divider */}
       <div className="d-flex justify-content-center mb-2">
         {isStudent && (

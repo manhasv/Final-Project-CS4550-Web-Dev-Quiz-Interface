@@ -9,8 +9,10 @@ import QuizRoutes from "./Kanbas/Quiz/routes.js";
 import session from "express-session";
 import "dotenv/config";
 import mongoose from "mongoose";
+import AttemptRoutes from "./Kanbas/Attempts/routes.js";
 
 const CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
+console.log(CONNECTION_STRING);
 mongoose.connect(CONNECTION_STRING);
 
 const app = express();
@@ -42,4 +44,5 @@ UserRoutes(app);
 CourseRoutes(app);
 ModuleRoutes(app);
 QuizRoutes(app);
+AttemptRoutes(app);
 app.listen(process.env.PORT || 4000)

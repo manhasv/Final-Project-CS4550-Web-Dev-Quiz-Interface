@@ -32,15 +32,15 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
     try {
       let response = await client.getLatestAttempt(qid || "", currentUser._id);
       console.log("attempt", response);
-      dispatch(setAttempt(response.attempt));
+      dispatch(setAttempt(response));
     } catch (error) {
       console.error("Failed to fetch or start attempt:", error);
     }
   };
 
-  useEffect(() => {
-    fetchAttempt();
-  }, [qid, currentUser._id]);
+  // useEffect(() => {
+  //   fetchAttempt();
+  // }, [qid, currentUser._id]);
 
   const handleAnswerChange = async (questionIndex: any, answer: any) => {
     try {

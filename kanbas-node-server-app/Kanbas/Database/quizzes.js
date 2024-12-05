@@ -10,12 +10,10 @@ export default [
     numberOfQuestions: 3,
     questions: [
       {
-        _id: 1,
         type: "TRUEFALSE",
         content: { text: "Is Jose Cool?", answer: true, point: 10 },
       },
       {
-        _id: 2,
         type: "MULTIPLECHOICE",
         content: {
           text: "What is your favorite color?",
@@ -25,7 +23,6 @@ export default [
         },
       },
       {
-        _id: 3,
         type: "FILLINTHEBLANK",
         content: {
           text: '"ABC" == "__1__" + "__2__" + "__3__"',
