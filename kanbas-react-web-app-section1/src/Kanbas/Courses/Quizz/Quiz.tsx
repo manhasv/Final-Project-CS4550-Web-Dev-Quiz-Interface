@@ -58,10 +58,10 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
 
   const handleSubmit = async () => {
     try {
-      await client.submitAttempt(qid || "", currentUser._id);
+      const submittedAtt = await client.submitAttempt(qid || "", currentUser._id);
+      dispatch(setAttempt(submittedAtt));
       setShowSubmitDialog(false);
       // // Fetch the latest attempt to get updated data
-      await fetchAttempt();
       // console.log('attempt after fetch after submit', attempt);
     } catch (error) {
       console.error("Failed to submit attempt:", error);
