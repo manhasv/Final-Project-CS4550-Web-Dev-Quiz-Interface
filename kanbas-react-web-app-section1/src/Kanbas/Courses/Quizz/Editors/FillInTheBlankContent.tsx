@@ -51,6 +51,15 @@ export default function FillInTheBlankContent({
   const removeOption = (index: number, subindex: number) => {
     const newOption = [...content.answer[index]];
     if (newOption.length <= 1) {
+      const newAnswer = [...content.answer];
+      const newBlanks = [...content.blanks];
+      newAnswer.splice(index, 1);
+      newBlanks.splice(index, 1);
+      setContent({
+        ...content,
+        answer: newAnswer,
+        blanks: newBlanks
+      })
       return;
     }
     newOption.splice(subindex, 1);
@@ -79,7 +88,7 @@ export default function FillInTheBlankContent({
       />
       <br></br>
       {content.blanks.map((prompt, index) => (
-        <div className="d-flex">
+        <div className="d-flex pb-1">
           <div>
             {content.answer[index].map((option: string, subindex: number) => {
               return (
@@ -119,7 +128,7 @@ export default function FillInTheBlankContent({
       ))}
       <br></br>
       <Button variant="primary" onClick={addChoice}>
-        +Add Another Answer
+        +Add Another Blank
       </Button>
     </div>
   );
