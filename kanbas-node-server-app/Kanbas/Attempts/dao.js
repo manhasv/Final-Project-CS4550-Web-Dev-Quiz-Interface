@@ -118,7 +118,7 @@ function compareAnswers(questionType, userAnswer, correctAnswer) {
       if (userAnswer.length !== correctAnswer.length) {
         return false;
       }
-      return userAnswer.every((ans, idx) => ans === correctAnswer[idx]);
+      return userAnswer.every((ans, idx) => correctAnswer[idx].map((str) => str.toLowerCase()).includes(ans.toLowerCase())); 
     default:
       return false;
   }

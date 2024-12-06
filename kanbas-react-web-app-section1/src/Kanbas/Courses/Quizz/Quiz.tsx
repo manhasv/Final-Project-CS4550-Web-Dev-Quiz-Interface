@@ -69,6 +69,12 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
   };
 
   const isAnswerCorrect = (question: any, userAnswer: any) => {
+    if (userAnswer === null) {
+      return false;
+    }
+    if (question.type === "FILLINTHEBLANK") {
+      return userAnswer.every((ans:string, idx:number) => question.content.answer[idx].map((st:string) => st.toLowerCase()).includes(ans.toLowerCase()));
+    }
     return userAnswer === question.content.answer;
   };
 
