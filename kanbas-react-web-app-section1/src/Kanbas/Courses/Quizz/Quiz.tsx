@@ -69,7 +69,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
   };
 
   const isAnswerCorrect = (question: any, userAnswer: any) => {
-    if (userAnswer === null) {
+    if (userAnswer === null || userAnswer === undefined) {
       return false;
     }
     if (question.type === "FILLINTHEBLANK") {
