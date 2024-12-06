@@ -127,7 +127,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
                 </div>
                 
                 
-                {(isPreview || attempt.submitted) && (
+                {(!isPreview || attempt.submitted) && (
                   <span
                     className={`ms-3 ${
                       correct ? "text-success" : "text-danger"
