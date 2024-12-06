@@ -54,6 +54,8 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
     dispatch(deleteQuiz(quiz._id));
   };
 
+  
+
   const handlePublishToggle = async () => {
     setIsPublished(!isPublished);
     await quizClient.updateQuizz({ ...quiz, publish: !isPublished });
