@@ -25,12 +25,13 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
   const { attempt } = useSelector((state: any) => state.attemptReducer);
 
   const fetchAttempt = async () => {
+    if (qid == null) return;
     try {
       let response = await quizClient.getLatestAttempt(qid || "", currentUser._id);
       console.log("fetch attempt", response);
       dispatch(setAttempt(response)); // the response is now the attempt
     } catch (error) {
-      console.error("Failed to fetch or start attempt:", error);
+      console.error("Failed to fetch or start attempt in item prop");
     }
   };
 
