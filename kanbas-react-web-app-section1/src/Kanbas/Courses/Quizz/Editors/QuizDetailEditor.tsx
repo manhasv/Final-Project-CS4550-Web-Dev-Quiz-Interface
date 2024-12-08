@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { addQuiz, updateQuiz } from "../reducer";
+import { addQuiz, setQuiz, updateQuiz } from "../reducer";
 import { Link } from "react-router-dom";
 import * as coursesClient from "../../client";
 import * as quizzClient from "../client";
+
+
 
 
 export default function QuizEditor() {
@@ -36,7 +38,11 @@ export default function QuizEditor() {
   };
 
 
-  const [quiz, setQuiz] = useState(quizData);
+
+
+  const [quiz, setLocalQuiz] = useState(quizData);
+
+
 
 
   const handleSave = async () => {
@@ -52,9 +58,37 @@ export default function QuizEditor() {
   };
 
 
+
+
   const handleChange = (field: string, value: string | number | boolean) => {
-    setQuiz({ ...quiz, [field]: value });
+    setLocalQuiz({ ...quiz, [field]: value });
   };
+
+
+  const fetchQuiz = async () => {
+    const quiz = await coursesClient.findQuizForCourse(cid as string);
+    alert('populating reducer')
+    dispatch(setQuiz(quiz));
+    setLocalQuiz(quiz.find((q: any) => q._id === qid) || {
+      title: "",
+      description: "",
+      points: 0,
+      availableDate: "",
+      dueDate: "",
+      untilDate: "",
+      type: "Graded Quiz",
+      multipleAttempts: false,
+      allowedAttempts: 3,
+      shuffleAnswers: false,
+      timeLimit: 20,
+      assignmentGroup: "Quizzes",
+    });
+  };
+  useEffect(() => {
+    if (quizzes.length === 0) {
+      fetchQuiz();
+    }
+  }, [qid]);
 
 
   return (
@@ -88,7 +122,11 @@ export default function QuizEditor() {
       </div>
 
 
+
+
       <hr />
+
+
 
 
       {/* Details Tab Content */}
@@ -104,6 +142,8 @@ export default function QuizEditor() {
       </div>
 
 
+
+
       <div className="mb-4">
         <label htmlFor="quiz-description" className="form-label fw-bold">Description</label>
         <textarea
@@ -114,6 +154,8 @@ export default function QuizEditor() {
           onChange={(e) => handleChange("description", e.target.value)}
         />
       </div>
+
+
 
 
       <table className="table table-borderless w-100">
@@ -138,6 +180,8 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -156,6 +200,8 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
 
 
           <tr className="mb-3">
@@ -178,6 +224,8 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -197,6 +245,7 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -212,6 +261,7 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
 
           {quiz.accessCodeBool && (
             <tr className="mb-3">
@@ -232,6 +282,7 @@ export default function QuizEditor() {
               </td>
             </tr>
           )}
+
 
           <tr className="mb-3">
             <td>
@@ -255,6 +306,8 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
 
 
           <tr className="mb-3">
@@ -281,6 +334,8 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -297,6 +352,8 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
 
 
           <tr className="mb-3">
@@ -316,6 +373,8 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -331,6 +390,7 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
 
           {quiz.multipleAttempts && (
             <tr className="mb-3">
@@ -352,6 +412,7 @@ export default function QuizEditor() {
             </tr>
           )}
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -367,6 +428,8 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
 
 
           <tr className="mb-3">
@@ -386,6 +449,8 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -401,6 +466,8 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
 
 
           <tr className="mb-3">
@@ -420,8 +487,12 @@ export default function QuizEditor() {
           </tr>
 
 
+
+
         </tbody>
       </table>
+
+
 
 
       {/* Save and Cancel buttons */}
@@ -439,6 +510,19 @@ export default function QuizEditor() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
