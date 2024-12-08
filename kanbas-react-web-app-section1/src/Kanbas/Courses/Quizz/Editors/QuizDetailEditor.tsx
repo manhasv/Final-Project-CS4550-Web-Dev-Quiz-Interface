@@ -21,8 +21,11 @@ export default function QuizEditor() {
     availableDate: "",
     dueDate: "",
     untilDate: "",
+    accessCodeBool: false,
+    accessCode: "",
     type: "Graded Quiz",
     multipleAttempts: false,
+    howManyAttempts: 1,
     shuffleAnswers: false,
     timeLimit: 20,
     assignmentGroup: "Quizzes",
@@ -194,6 +197,41 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">Access Code</div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.accessCodeBool}
+                    onChange={(e) => handleChange("accessCodeBool", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          {quiz.accessCodeBool && (
+            <tr className="mb-3">
+              <td>
+                <div className="row align-items-center">
+                  <div className="col-md-2 text-end">What is The Access Code</div>
+                  <div className="col-md-10">
+                    <input
+                      type="number"
+                      className="form-control ms-2"
+                      value={quiz.accessCode}
+                      onChange={(e) =>
+                        handleChange("accessCode", parseInt(e.target.value))
+                      }
+                    />
+                  </div>
+                </div>
+              </td>
+            </tr>
+          )}
 
           <tr className="mb-3">
             <td>
@@ -294,6 +332,25 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+          {quiz.multipleAttempts && (
+            <tr className="mb-3">
+              <td>
+                <div className="row align-items-center">
+                  <div className="col-md-2 text-end">Amount of Attempts</div>
+                  <div className="col-md-10">
+                    <input
+                      type="number"
+                      className="form-control ms-2"
+                      value={quiz.amountOfAttempts}
+                      onChange={(e) =>
+                        handleChange("amountOfAttempts", parseInt(e.target.value))
+                      }
+                    />
+                  </div>
+                </div>
+              </td>
+            </tr>
+          )}
 
           <tr className="mb-3">
             <td>
