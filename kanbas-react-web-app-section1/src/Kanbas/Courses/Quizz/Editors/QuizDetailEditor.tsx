@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { addQuiz, setQuiz, updateQuiz } from "../reducer";
+import { addQuiz, updateQuiz } from "../reducer";
 import { Link } from "react-router-dom";
 import * as coursesClient from "../../client";
 import * as quizzClient from "../client";
+
 
 export default function QuizEditor() {
   const { cid, qid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
+
 
   const quizData = quizzes.find((q: any) => q._id === qid) || {
     title: "",
@@ -21,13 +23,18 @@ export default function QuizEditor() {
     untilDate: "",
     type: "Graded Quiz",
     multipleAttempts: false,
-    allowedAttempts: 3,
     shuffleAnswers: false,
     timeLimit: 20,
     assignmentGroup: "Quizzes",
+    webcamRequired: false,
+    lockQuestionsAfterAnswering: false,
+    oneQuestionAtATime: false,
+    showCorrectAnswers: false,
   };
 
-  const [quiz, setLocalQuiz] = useState(quizData);
+
+  const [quiz, setQuiz] = useState(quizData);
+
 
   const handleSave = async () => {
     alert(`saving quiz ${JSON.stringify(quiz)}`);
@@ -41,34 +48,11 @@ export default function QuizEditor() {
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
 
+
   const handleChange = (field: string, value: string | number | boolean) => {
-    setLocalQuiz({ ...quiz, [field]: value });
+    setQuiz({ ...quiz, [field]: value });
   };
 
-  const fetchQuiz = async () => {
-    const quiz = await coursesClient.findQuizForCourse(cid as string);
-    alert('populating reducer')
-    dispatch(setQuiz(quiz));
-    setLocalQuiz(quiz.find((q: any) => q._id === qid) || {
-      title: "",
-      description: "",
-      points: 0,
-      availableDate: "",
-      dueDate: "",
-      untilDate: "",
-      type: "Graded Quiz",
-      multipleAttempts: false,
-      allowedAttempts: 3,
-      shuffleAnswers: false,
-      timeLimit: 20,
-      assignmentGroup: "Quizzes",
-    });
-  };
-  useEffect(() => {
-    if (quizzes.length === 0) {
-      fetchQuiz();
-    }
-  }, [qid]);
 
   return (
     <div id="quiz-editor" className="container mt-4">
@@ -100,7 +84,9 @@ export default function QuizEditor() {
         </div>
       </div>
 
+
       <hr />
+
 
       {/* Details Tab Content */}
       <div className="mb-4">
@@ -114,6 +100,7 @@ export default function QuizEditor() {
         />
       </div>
 
+
       <div className="mb-4">
         <label htmlFor="quiz-description" className="form-label fw-bold">Description</label>
         <textarea
@@ -124,6 +111,7 @@ export default function QuizEditor() {
           onChange={(e) => handleChange("description", e.target.value)}
         />
       </div>
+
 
       <table className="table table-borderless w-100">
         <tbody>
@@ -146,6 +134,7 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -164,6 +153,7 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
 
           <tr className="mb-3">
             <td>
@@ -184,6 +174,7 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -202,6 +193,31 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-type">Assignment Group</label>
+                </div>
+                <div className="col-md-10">
+                  <select
+                    id="quiz-type"
+                    className="form-control"
+                    value={quiz.type}
+                    onChange={(e) => handleChange("type", e.target.value)}
+                  >
+                    <option value="Quizzes">Quizzes</option>
+                    <option value="Exams">Exams</option>
+                    <option value="Assignments">Assignments</option>
+                    <option value="Project">Project</option>
+                  </select>
+                </div>
+              </div>
+            </td>
+          </tr>
+
 
           <tr className="mb-3">
             <td>
@@ -226,6 +242,7 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -233,15 +250,16 @@ export default function QuizEditor() {
                   <label htmlFor="quiz-time-limit">Time Limit (minutes)</label>
                 </div>
                 <div className="col-md-10">
-                  <input 
-                    className="form-control" 
-                    defaultValue={quiz.timeLimit} 
+                  <input
+                    className="form-control"
+                    defaultValue={quiz.timeLimit}
                     onChange={(e) => handleChange("timeLimit", parseInt(e.target.value))}>
                   </input>
                 </div>
               </div>
             </td>
           </tr>
+
 
           <tr className="mb-3">
             <td>
@@ -259,6 +277,7 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -274,8 +293,79 @@ export default function QuizEditor() {
               </div>
             </td>
           </tr>
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">Webcam Required</div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.webcamRequired}
+                    onChange={(e) => handleChange("webcamRequired", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">Lock Questions After Answering</div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.lockQuestionsAfterAnswering}
+                    onChange={(e) => handleChange("lockQuestionsAfterAnswering", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">Show Correct Answers</div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.showCorrectAnswers}
+                    onChange={(e) => handleChange("showCorrectAnswers", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">One Question at a Time</div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.oneQuestionAtATime}
+                    onChange={(e) => handleChange("oneQuestionAtATime", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
         </tbody>
       </table>
+
 
       {/* Save and Cancel buttons */}
       <div className="row g-3 mt-2">
@@ -292,4 +382,11 @@ export default function QuizEditor() {
     </div>
   );
 }
+
+
+
+
+
+
+
 
