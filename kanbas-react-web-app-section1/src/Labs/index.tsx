@@ -14,6 +14,8 @@ export default function Labs() {
     <div>
       <h1>Team 131</h1>
       <h2>Section 1</h2>
+      <h1>Landing page</h1>
+      <TOC />
       <Routes>
         <Route path="/" element={<Navigate to="LandingPage" />} />
         <Route path="Lab1" element={<Lab1 />} />
