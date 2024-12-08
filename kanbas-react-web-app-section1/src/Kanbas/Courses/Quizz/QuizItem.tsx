@@ -106,9 +106,7 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
             {quizStatusText === "Not available until" && (
               <span className="text-dark"> {formatDate(quiz.availableDate)}</span>
             )}
-            {quizStatusText === "Available" && (
-              <span className="text-dark"> {formatDate(quiz.dueDate)}</span>
-            )}
+            {quizStatusText === "Available"}
             <span className="me-2">|</span>
             <strong className="me-2">Due</strong>
             <span className="me-2">
