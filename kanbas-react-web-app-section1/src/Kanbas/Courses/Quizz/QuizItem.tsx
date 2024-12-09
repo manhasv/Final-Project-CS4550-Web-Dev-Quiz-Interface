@@ -11,6 +11,7 @@ import { setAttempt } from "./Attempt/your_attempt_reducer";
 interface QuizItemProps {
   quiz: any;
   isFaculty: boolean;
+  scores: any; // map of quiz id to score for user
 }
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -21,8 +22,8 @@ function formatDate(dateString: string): string {
   return `${month}/${day}/${year}`;
 }
 
-export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
-  const { cid, qid } = useParams();
+export default function QuizItem({ quiz, isFaculty, scores }: QuizItemProps) {
+  const { cid } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state: any) => state.accountReducer);
@@ -30,22 +31,6 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
   const [showMenu, setShowMenu] = useState(false);
   const [isPublished, setIsPublished] = useState(quiz.publish);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
-  const { attempt } = useSelector((state: any) => state.attemptReducer);
-
-  const fetchAttempt = async () => {
-    if (qid == null) return;
-    try {
-      let response = await quizClient.getLatestAttempt(qid || "", currentUser._id);
-      console.log("fetch attempt", response);
-      dispatch(setAttempt(response)); // the response is now the attempt
-    } catch (error) {
-      console.error("Failed to fetch or start attempt in item prop");
-    }
-  };
-
-  useEffect(() => {
-    fetchAttempt();
-  }, []);
 
   const toggleMenu = (event: React.MouseEvent) => {
     const { bottom, left } = event.currentTarget.getBoundingClientRect();
@@ -117,9 +102,9 @@ export default function QuizItem({ quiz, isFaculty }: QuizItemProps) {
             <span className="me-2">|</span>
             <span className="me-2">{quiz.questions.length} questions</span>
           </span>
-          {currentUser?.role === "STUDENT" && attempt.score != null && (
+          {currentUser?.role === "STUDENT" && scores[quiz._id] && (
             <span className="d-block mt-1">
-              <strong>Last Score:</strong> {attempt.score} pts
+              <strong>Last Score:</strong> {scores[quiz._id]}/{quiz.points} pts
             </span>
           )}
         </div>
