@@ -15,8 +15,7 @@ export default function QuizEditor() {
   const dispatch = useDispatch();
   const quizzes = useSelector((state: any) => state.quizzesReducer.quizzes);
 
-
-  const quizData = quizzes.find((q: any) => q._id === qid) || {
+  const defaultQuizData = {
     title: "",
     description: "",
     points: 0,
@@ -27,7 +26,6 @@ export default function QuizEditor() {
     accessCode: "",
     type: "Graded Quiz",
     multipleAttempts: false,
-    howManyAttempts: 1,
     shuffleAnswers: false,
     timeLimit: 20,
     assignmentGroup: "Quizzes",
@@ -40,19 +38,20 @@ export default function QuizEditor() {
 
 
 
-  const [quiz, setLocalQuiz] = useState(quizData);
+  const [quiz, setLocalQuiz] = useState(quizzes.find((q: any) => q._id === qid) || {...defaultQuizData});
 
 
 
 
-  const handleSave = async () => {
-    alert(`saving quiz ${JSON.stringify(quiz)}`);
+  const handleSave = async (publish: boolean) => {
+    const toSave = {...quiz, publish: publish}
+    alert(`saving quiz ${JSON.stringify(toSave)}`);
     if (!qid || qid === "New") {
-      await coursesClient.createQuizzForCourse(cid as string, quiz);
-      dispatch(addQuiz({ ...quiz, course: cid }));
+      await coursesClient.createQuizzForCourse(cid as string, toSave);
+      dispatch(addQuiz({ ...toSave, course: cid }));
     } else {
-      await quizzClient.updateQuizz(quiz);
-      dispatch(updateQuiz({ ...quiz, _id: qid, course: cid }));
+      await quizzClient.updateQuizz(toSave);
+      dispatch(updateQuiz({ ...toSave, _id: qid, course: cid }));
     }
     navigate(`/Kanbas/Courses/${cid}/Quizzes`);
   };
@@ -69,22 +68,7 @@ export default function QuizEditor() {
     const quiz = await coursesClient.findQuizForCourse(cid as string);
     alert('populating reducer')
     dispatch(setQuiz(quiz));
-    setLocalQuiz(quiz.find((q: any) => q._id === qid) || {
-      title: "",
-      description: "",
-      points: 0,
-      availableDate: "",
-      dueDate: "",
-      untilDate: "",
-      type: "Graded Quiz",
-      multipleAttempts: false,
-      howManyAttempts: 1,
-      allowedAttempts: 3,
-      shuffleAnswers: false,
-      timeLimit: 20,
-      assignmentGroup: "Quizzes",
-      oneQuestionPerPage: false,
-    });
+    setLocalQuiz(quiz.find((q: any) => q._id === qid) || {...defaultQuizData});
   };
   useEffect(() => {
     if (quizzes.length === 0) {
@@ -251,7 +235,7 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Access Code</div>
+                <div className="col-md-2 text-end">Access Code Required</div>
                 <div className="col-md-10">
                   <input
                     type="checkbox"
@@ -269,14 +253,14 @@ export default function QuizEditor() {
             <tr className="mb-3">
               <td>
                 <div className="row align-items-center">
-                  <div className="col-md-2 text-end">What is The Access Code</div>
+                  <div className="col-md-2 text-end">Access Code</div>
                   <div className="col-md-10">
                     <input
-                      type="number"
+                      type="text"
                       className="form-control ms-2"
                       value={quiz.accessCode}
                       onChange={(e) =>
-                        handleChange("accessCode", parseInt(e.target.value))
+                        handleChange("accessCode", e.target.value)
                       }
                     />
                   </div>
@@ -290,14 +274,14 @@ export default function QuizEditor() {
             <td>
               <div className="row align-items-center">
                 <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-type">Assignment Group</label>
+                  <label htmlFor="quiz-assignment-group">Assignment Group</label>
                 </div>
                 <div className="col-md-10">
                   <select
-                    id="quiz-type"
+                    id="quiz-assignment-group"
                     className="form-control"
-                    value={quiz.type}
-                    onChange={(e) => handleChange("type", e.target.value)}
+                    value={quiz.assignmentGroup}
+                    onChange={(e) => handleChange("Assignment Group", e.target.value)}
                   >
                     <option value="Quizzes">Quizzes</option>
                     <option value="Exams">Exams</option>
@@ -346,6 +330,7 @@ export default function QuizEditor() {
                 </div>
                 <div className="col-md-10">
                   <input
+                    type="number"
                     className="form-control"
                     defaultValue={quiz.timeLimit}
                     onChange={(e) => handleChange("timeLimit", parseInt(e.target.value))}>
@@ -504,8 +489,11 @@ export default function QuizEditor() {
           <Link to={`/Kanbas/Courses/${cid}/Quizzes`} className="btn btn-secondary me-3">
             Cancel
           </Link>
-          <button onClick={handleSave} className="btn btn-danger">
+          <button onClick={() => handleSave(false)} className="btn btn-danger me-3">
             Save
+          </button>
+          <button onClick={() => handleSave(true)} className="btn btn-danger">
+            Save and Publish
           </button>
         </div>
       </div>
