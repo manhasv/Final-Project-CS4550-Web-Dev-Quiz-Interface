@@ -33,7 +33,7 @@ export default function QuizEditor() {
     assignmentGroup: "Quizzes",
     webcamRequired: false,
     lockQuestionsAfterAnswering: false,
-    oneQuestionAtATime: false,
+    oneQuestionPerPage: false,
     showCorrectAnswers: false,
   };
 
@@ -78,10 +78,12 @@ export default function QuizEditor() {
       untilDate: "",
       type: "Graded Quiz",
       multipleAttempts: false,
+      howManyAttempts: 1,
       allowedAttempts: 3,
       shuffleAnswers: false,
       timeLimit: 20,
       assignmentGroup: "Quizzes",
+      oneQuestionPerPage: false,
     });
   };
   useEffect(() => {
@@ -396,14 +398,14 @@ export default function QuizEditor() {
             <tr className="mb-3">
               <td>
                 <div className="row align-items-center">
-                  <div className="col-md-2 text-end">Amount of Attempts</div>
+                  <div className="col-md-2 text-end">How Many Attempts</div>
                   <div className="col-md-10">
                     <input
                       type="number"
                       className="form-control ms-2"
-                      value={quiz.amountOfAttempts}
+                      value={quiz.howManyAttempts}
                       onChange={(e) =>
-                        handleChange("amountOfAttempts", parseInt(e.target.value))
+                        handleChange("howManyAttempts", parseInt(e.target.value))
                       }
                     />
                   </div>
@@ -478,8 +480,8 @@ export default function QuizEditor() {
                   <input
                     type="checkbox"
                     className="form-check-input ms-2"
-                    checked={quiz.oneQuestionAtATime}
-                    onChange={(e) => handleChange("oneQuestionAtATime", e.target.checked)}
+                    checked={quiz.oenQuestionPerPage}
+                    onChange={(e) => handleChange("oneQuestionPerPage", e.target.checked)}
                   />
                 </div>
               </div>
