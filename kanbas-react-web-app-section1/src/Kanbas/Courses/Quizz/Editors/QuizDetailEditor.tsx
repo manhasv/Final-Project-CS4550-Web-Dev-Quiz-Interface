@@ -62,6 +62,7 @@ export default function QuizEditor() {
 
   const handleChange = (field: string, value: string | number | boolean) => {
     setLocalQuiz({ ...quiz, [field]: value });
+    // alert(quiz.type);
   };
 
 
@@ -181,7 +182,7 @@ export default function QuizEditor() {
                     type="date"
                     id="quiz-available-date"
                     className="form-control"
-                    value={quiz.availableDate}
+                    value={quiz.availableDate.split("T")[0]}
                     onChange={(e) => handleChange("availableDate", e.target.value)}
                   />
                 </div>
@@ -203,7 +204,7 @@ export default function QuizEditor() {
                     type="date"
                     id="quiz-due-date"
                     className="form-control"
-                    value={quiz.dueDate}
+                    value={quiz.dueDate.split("T")[0]}
                     onChange={(e) => handleChange("dueDate", e.target.value)}
                   />
                 </div>
@@ -225,7 +226,7 @@ export default function QuizEditor() {
                     type="date"
                     id="quiz-until-date"
                     className="form-control"
-                    value={quiz.untilDate}
+                    value={quiz.untilDate.split("T")[0]}
                     onChange={(e) => handleChange("untilDate", e.target.value)}
                   />
                 </div>
@@ -237,10 +238,13 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Access Code Required</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-access-code-required" >Access Code Required</label>
+                </div>
                 <div className="col-md-10">
                   <input
                     type="checkbox"
+                    id="quiz-access-code-required"
                     className="form-check-input ms-2"
                     checked={quiz.accessCodeBool}
                     onChange={(e) => handleChange("accessCodeBool", e.target.checked)}
@@ -255,10 +259,13 @@ export default function QuizEditor() {
             <tr className="mb-3">
               <td>
                 <div className="row align-items-center">
-                  <div className="col-md-2 text-end">Access Code</div>
+                  <div className="col-md-2 text-end">
+                    <label htmlFor="quiz-access-code">Access Code</label>
+                  </div>
                   <div className="col-md-10">
                     <input
                       type="text"
+                      id="quiz-access-code"
                       className="form-control ms-2"
                       value={quiz.accessCode}
                       onChange={(e) =>
@@ -283,7 +290,7 @@ export default function QuizEditor() {
                     id="quiz-assignment-group"
                     className="form-control"
                     value={quiz.assignmentGroup}
-                    onChange={(e) => handleChange("Assignment Group", e.target.value)}
+                    onChange={(e) => handleChange("assignmentGroup", e.target.value)}
                   >
                     <option value="Quizzes">Quizzes</option>
                     <option value="Exams">Exams</option>
@@ -332,6 +339,8 @@ export default function QuizEditor() {
                 </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-time-limit"
+                    min={1}
                     type="number"
                     className="form-control"
                     defaultValue={quiz.timeLimit}
@@ -348,10 +357,13 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Shuffle Answers</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-shuffle-answers">Shuffle Answers</label>
+                </div>
                 <div className="col-md-10">
                   <input
                     type="checkbox"
+                    id="quiz-shuffle-answers"
                     className="form-check-input ms-2"
                     checked={quiz.shuffleAnswers}
                     onChange={(e) => handleChange("shuffleAnswers", e.target.checked)}
@@ -367,9 +379,12 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Multiple Attempts</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-multiple-attempts">Multiple Attempts</label>
+                </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-multiple-attempts"
                     type="checkbox"
                     className="form-check-input ms-2"
                     checked={quiz.multipleAttempts}
@@ -385,14 +400,18 @@ export default function QuizEditor() {
             <tr className="mb-3">
               <td>
                 <div className="row align-items-center">
-                  <div className="col-md-2 text-end">How Many Attempts</div>
+                  <div className="col-md-2 text-end">
+                    <label htmlFor="quiz-allowed-attempts">Attempts allowed</label>
+                  </div>
                   <div className="col-md-10">
                     <input
+                      id="quiz-allowed-attempts"
                       type="number"
+                      min={1}
                       className="form-control ms-2"
-                      value={quiz.howManyAttempts}
+                      value={quiz.allowedAttempts}
                       onChange={(e) =>
-                        handleChange("howManyAttempts", parseInt(e.target.value))
+                        handleChange("allowedAttempts", parseInt(e.target.value))
                       }
                     />
                   </div>
@@ -405,9 +424,12 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Webcam Required</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-webcam-required">Webcam Required</label>
+                </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-webcam-required"
                     type="checkbox"
                     className="form-check-input ms-2"
                     checked={quiz.webcamRequired}
@@ -424,9 +446,12 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Lock Questions After Answering</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-lock-questions"> Lock Questions After Answering</label>
+                </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-lock-questions"
                     type="checkbox"
                     className="form-check-input ms-2"
                     checked={quiz.lockQuestionsAfterAnswering}
@@ -443,9 +468,12 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">Show Correct Answers</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-show-correct-answers">Show Correct Answers</label>
+                </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-show-correct-answers"
                     type="checkbox"
                     className="form-check-input ms-2"
                     checked={quiz.showCorrectAnswers}
@@ -462,12 +490,15 @@ export default function QuizEditor() {
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
-                <div className="col-md-2 text-end">One Question at a Time</div>
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-one-question-per-page">One Question at a Time</label>
+                </div>
                 <div className="col-md-10">
                   <input
+                    id="quiz-one-question-per-page"
                     type="checkbox"
                     className="form-check-input ms-2"
-                    checked={quiz.oenQuestionPerPage}
+                    checked={quiz.oneQuestionPerPage}
                     onChange={(e) => handleChange("oneQuestionPerPage", e.target.checked)}
                   />
                 </div>
@@ -491,7 +522,7 @@ export default function QuizEditor() {
           <Link to={`/Kanbas/Courses/${cid}/Quizzes`} className="btn btn-secondary me-3">
             Cancel
           </Link>
-          <button onClick={() => handleSave(false)} className="btn btn-danger me-3">
+          <button onClick={() => handleSave(quiz.publish ?? false)} className="btn btn-danger me-3">
             Save
           </button>
           <button onClick={() => handleSave(true)} className="btn btn-danger">
