@@ -26,12 +26,13 @@ export default function QuizEditor() {
     accessCode: "",
     type: "Graded Quiz",
     multipleAttempts: false,
-    shuffleAnswers: false,
+    allowedAttempts: 3,
+    shuffleAnswers: true,
     timeLimit: 20,
     assignmentGroup: "Quizzes",
     webcamRequired: false,
     lockQuestionsAfterAnswering: false,
-    oneQuestionPerPage: false,
+    oneQuestionPerPage: true,
     showCorrectAnswers: false,
   };
 
@@ -159,6 +160,7 @@ export default function QuizEditor() {
                     className="form-control"
                     value={quiz.points}
                     onChange={(e) => handleChange("points", Number(e.target.value))}
+                    disabled={true}
                   />
                 </div>
               </div>
