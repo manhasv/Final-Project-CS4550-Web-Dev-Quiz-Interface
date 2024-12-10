@@ -170,115 +170,6 @@ export default function QuizEditor() {
 
 
 
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-available-date">Available From</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    type="date"
-                    id="quiz-available-date"
-                    className="form-control"
-                    value={quiz.availableDate.split("T")[0]}
-                    onChange={(e) => handleChange("availableDate", e.target.value)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-due-date">Due Date</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    type="date"
-                    id="quiz-due-date"
-                    className="form-control"
-                    value={quiz.dueDate.split("T")[0]}
-                    onChange={(e) => handleChange("dueDate", e.target.value)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-until-date">Until Date</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    type="date"
-                    id="quiz-until-date"
-                    className="form-control"
-                    value={quiz.untilDate.split("T")[0]}
-                    onChange={(e) => handleChange("untilDate", e.target.value)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-access-code-required" >Access Code Required</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    type="checkbox"
-                    id="quiz-access-code-required"
-                    className="form-check-input ms-2"
-                    checked={quiz.accessCodeBool}
-                    onChange={(e) => handleChange("accessCodeBool", e.target.checked)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-          {quiz.accessCodeBool && (
-            <tr className="mb-3">
-              <td>
-                <div className="row align-items-center">
-                  <div className="col-md-2 text-end">
-                    <label htmlFor="quiz-access-code">Access Code</label>
-                  </div>
-                  <div className="col-md-10">
-                    <input
-                      type="text"
-                      id="quiz-access-code"
-                      className="form-control ms-2"
-                      value={quiz.accessCode}
-                      onChange={(e) =>
-                        handleChange("accessCode", e.target.value)
-                      }
-                    />
-                  </div>
-                </div>
-              </td>
-            </tr>
-          )}
-
-
           <tr className="mb-3">
             <td>
               <div className="row align-items-center">
@@ -425,50 +316,6 @@ export default function QuizEditor() {
             <td>
               <div className="row align-items-center">
                 <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-webcam-required">Webcam Required</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    id="quiz-webcam-required"
-                    type="checkbox"
-                    className="form-check-input ms-2"
-                    checked={quiz.webcamRequired}
-                    onChange={(e) => handleChange("webcamRequired", e.target.checked)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
-                  <label htmlFor="quiz-lock-questions"> Lock Questions After Answering</label>
-                </div>
-                <div className="col-md-10">
-                  <input
-                    id="quiz-lock-questions"
-                    type="checkbox"
-                    className="form-check-input ms-2"
-                    checked={quiz.lockQuestionsAfterAnswering}
-                    onChange={(e) => handleChange("lockQuestionsAfterAnswering", e.target.checked)}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-
-
-
-
-          <tr className="mb-3">
-            <td>
-              <div className="row align-items-center">
-                <div className="col-md-2 text-end">
                   <label htmlFor="quiz-show-correct-answers">Show Correct Answers</label>
                 </div>
                 <div className="col-md-10">
@@ -486,6 +333,50 @@ export default function QuizEditor() {
 
 
 
+
+          
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-access-code-required" >Access Code Required</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    type="checkbox"
+                    id="quiz-access-code-required"
+                    className="form-check-input ms-2"
+                    checked={quiz.accessCodeBool}
+                    onChange={(e) => handleChange("accessCodeBool", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          {quiz.accessCodeBool && (
+            <tr className="mb-3">
+              <td>
+                <div className="row align-items-center">
+                  <div className="col-md-2 text-end">
+                    <label htmlFor="quiz-access-code">Access Code</label>
+                  </div>
+                  <div className="col-md-10">
+                    <input
+                      type="text"
+                      id="quiz-access-code"
+                      className="form-control ms-2"
+                      value={quiz.accessCode}
+                      onChange={(e) =>
+                        handleChange("accessCode", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              </td>
+            </tr>
+          )}
 
           <tr className="mb-3">
             <td>
@@ -506,7 +397,106 @@ export default function QuizEditor() {
             </td>
           </tr>
 
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-webcam-required">Webcam Required</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    id="quiz-webcam-required"
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.webcamRequired}
+                    onChange={(e) => handleChange("webcamRequired", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
 
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-lock-questions"> Lock Questions After Answering</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    id="quiz-lock-questions"
+                    type="checkbox"
+                    className="form-check-input ms-2"
+                    checked={quiz.lockQuestionsAfterAnswering}
+                    onChange={(e) => handleChange("lockQuestionsAfterAnswering", e.target.checked)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-available-date">Available From</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    type="date"
+                    id="quiz-available-date"
+                    className="form-control"
+                    value={quiz.availableDate.split("T")[0]}
+                    onChange={(e) => handleChange("availableDate", e.target.value)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-due-date">Due Date</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    type="date"
+                    id="quiz-due-date"
+                    className="form-control"
+                    value={quiz.dueDate.split("T")[0]}
+                    onChange={(e) => handleChange("dueDate", e.target.value)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+
+
+
+
+          <tr className="mb-3">
+            <td>
+              <div className="row align-items-center">
+                <div className="col-md-2 text-end">
+                  <label htmlFor="quiz-until-date">Until Date</label>
+                </div>
+                <div className="col-md-10">
+                  <input
+                    type="date"
+                    id="quiz-until-date"
+                    className="form-control"
+                    value={quiz.untilDate.split("T")[0]}
+                    onChange={(e) => handleChange("untilDate", e.target.value)}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
 
 
         </tbody>

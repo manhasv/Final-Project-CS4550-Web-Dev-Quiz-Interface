@@ -217,7 +217,7 @@ export default function QuizDetails() {
             <strong>One Question at a Time:</strong>
           </div>
           <div className="col-8 text-start">
-            {quiz.oneQuestionAtATime ? "Yes" : "No"}
+            {quiz.oneQuestionPerPage ? "Yes" : "No"}
           </div>
         </div>
         <div className="row mb-3">
@@ -233,7 +233,7 @@ export default function QuizDetails() {
             <strong>Lock Questions After Answering:</strong>
           </div>
           <div className="col-8 text-start">
-            {quiz.lockQuestions ? "Yes" : "No"}
+            {quiz.lockQuestionsAfterAnswering ? "Yes" : "No"}
           </div>
         </div>
       </div>
