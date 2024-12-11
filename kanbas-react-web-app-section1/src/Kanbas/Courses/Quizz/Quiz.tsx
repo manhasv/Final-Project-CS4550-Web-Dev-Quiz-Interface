@@ -96,7 +96,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
         </div>
       </div>
 
-      <ul className="list-group">
+      {thisQuiz.questions.length > 0 && <ul className="list-group">
         {(thisQuiz.oneQuestionPerPage
           ? [thisQuiz.questions[questionNum - 1]]
           : thisQuiz.questions
@@ -143,7 +143,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
             </li>
           );
         })}
-      </ul>
+      </ul>}
 
       {thisQuiz.oneQuestionPerPage && (
         <div className="p-2">
