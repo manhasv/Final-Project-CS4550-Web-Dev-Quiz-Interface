@@ -80,7 +80,7 @@ export default function Quiz({ isPreview }: { isPreview: boolean }) {
 
   return (
     <div id="wd-quiz">
-      {JSON.stringify(attempt)}
+      
       <br />
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>{thisQuiz.title}</h2>
